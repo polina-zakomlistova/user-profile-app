@@ -1,0 +1,16 @@
+.link {
+    color: var(--btn-color);
+    background: none;
+    border: 1.5px solid var(--btn-color);
+    cursor: pointer;
+    box-sizing: border-box;
+    max-width: 79px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.color {
+    color: var(--form-bg-color);
+    background: var(--btn-color);
+}

@@ -1,0 +1,49 @@
+@import 'styles.scss';
+
+.app {
+    background: var(--bg-color);
+    color: var(--primary-color);
+    text-align: center;
+    min-height: 100vh;
+    @include font(var(--font-size-m), var(--font-line-m), var(--font-weight-m));
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    border-radius: 12px 12px 0px 0px;
+    background: var(--form-bg-color);
+    padding: 25px;
+
+    width: var(--desktop-width-container);
+    height: var(--desktop-height-container);
+
+    @include tablet {
+        width: var(--tablet-width-container);
+        height: var(--tablet-height-container);
+    }
+
+    @include mobile {
+        width: var(--mobile-width-container);
+        height: var(--mobile-height-container);
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 48px;
+}

@@ -1,0 +1,31 @@
+.button {
+    color: var(--btn-color);
+    background: none;
+    border: 1.5px solid var(--btn-color);
+    cursor: pointer;
+    box-sizing: border-box;
+    max-width: 79px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.color {
+    color: var(--form-bg-color);
+    background: var(--btn-color);
+}
+
+.delete {
+    border: none;
+    padding: 0;
+}
+
+.add {
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    :first-child {
+        width: 20px;
+        height: 20px;
+    }
+}

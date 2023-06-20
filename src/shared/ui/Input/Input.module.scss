@@ -1,0 +1,26 @@
+.input {
+    width: 400px;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid var(--bg-color);
+    border-radius: 4px;
+}
+
+.color {
+    background-color: var(--bg-color);
+}
+
+.label {
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+    :last-child {
+        margin-bottom: 0px;
+    }
+}
