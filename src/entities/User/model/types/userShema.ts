@@ -8,6 +8,11 @@ export enum Sex {
     man = 'man',
     woman = 'woman',
 }
+
+type CheckboxOption = {
+    value: boolean;
+    label: string;
+};
 export interface UserSchema {
     id: string;
     name: string;
@@ -18,7 +23,7 @@ export interface UserSchema {
     sex: Sex;
     advantages: string[];
     radio: number;
-    checkbox: number[];
+    checkbox: CheckboxOption[];
     about: string;
 }
 

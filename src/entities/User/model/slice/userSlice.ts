@@ -11,11 +11,14 @@ const initialState: UserSchema = {
     sex: Sex.man,
     advantages: [],
     radio: 0,
-    checkbox: [],
+    checkbox: [
+        { label: 'frontend', value: false },
+        { label: 'backend', value: false },
+    ],
     about: '',
 };
 
-interface IChangeAction {
+export interface IChangeAction {
     updates: Partial<UserSchema>;
 }
 

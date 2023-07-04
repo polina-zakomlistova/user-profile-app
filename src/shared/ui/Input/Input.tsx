@@ -1,5 +1,5 @@
-import React from 'react';
-import { Field } from 'formik';
+import React, { InputHTMLAttributes } from 'react';
+import { Field, useField } from 'formik';
 import InputMask from 'react-input-mask';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Input.module.scss';
@@ -8,15 +8,12 @@ import { ChangeEvent } from 'react';
 export enum ThemeInput {
     COLOR = 'color',
 }
-interface InputProps {
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     name: string;
-    value?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
     label?: string;
-    type?: string;
     mask?: string;
     maskChar?: string;
-    placeholder?: string;
     theme?: ThemeInput;
 }
 
@@ -24,14 +21,16 @@ const Input: React.FC<InputProps> = (props) => {
     const {
         name,
         label,
-        value,
-        onChange,
         type = 'text',
-        placeholder,
         mask,
         maskChar,
         theme,
+        children,
+        ...otherProps
     } = props;
+
+    const [field] = useField(props);
+
     return (
         <div>
             {label && (
@@ -59,29 +58,27 @@ const Input: React.FC<InputProps> = (props) => {
                             )}
                             mask={mask}
                             maskChar={maskChar}
-                            placeholder={placeholder}
                             autoComplete="off"
                             id={`field-${name}`}
-                            type="text"
-                            onChange={onChange}
-                            value={value}
-                        />
+                            {...otherProps}
+                        >
+                            {children}
+                        </InputMask>
                     )}
                 </Field>
             ) : (
                 <Field
-                    name={name}
-                    onChange={onChange}
-                    type={type}
-                    id={name}
-                    placeholder={placeholder}
+                    {...field}
+                    id={`field-${name}`}
                     className={classNames(
                         cls.input,
                         { [cls[theme]]: true },
                         []
                     )}
-                    value={value}
-                />
+                    {...otherProps}
+                >
+                    {children}
+                </Field>
             )}
         </div>
     );

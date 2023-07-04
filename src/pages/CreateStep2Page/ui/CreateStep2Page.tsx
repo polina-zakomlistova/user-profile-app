@@ -1,17 +1,23 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 
 import { object, array, string, number, InferType } from 'yup';
 import ButtonLink, { ThemeButtonLink } from 'shared/ui/ButtonLink/ButtonLink';
 
-import FieldArrayCustom from 'entities/User/ui/FieldArray/FieldArray';
+import FieldArrayCustom from 'shared/Lists/FieldArray/FieldArray';
+
 import { useSelector } from 'react-redux';
 import { getUserValue } from 'entities/User/model/selectors/getUserValue';
 import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import CheckboxGroup from 'entities/User/ui/CheckboxGroup/CheckboxGroup';
 
 const SignupSchema = object().shape({
-    advantages: array().of(string().required('Обязательное поле')),
+    advantages: array().of(
+        string()
+            .max(50, 'Максимальная длина 50 символов')
+            .required('Обязательное поле')
+            .min(3, 'Minimum of 3 friends')
+    ),
     radio: number().required('Обязательное поле'),
     checkbox: array().of(number().required('Обязательное поле')),
 });
@@ -37,76 +43,13 @@ const CreateStep2Page = () => {
                     console.log(values);
                 }}
             >
-                {({ errors, touched }) => (
+                {(props: FormikProps<any>) => (
                     <Form className="form">
                         <FieldArrayCustom
                             name="advantages"
                             onChangeInput={updateField}
                         />
-
-                        <div>
-                            <label>Checkbox</label>
-                            <div>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="checkbox"
-                                        value={1}
-                                    />
-                                    1
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="checkbox"
-                                        value={2}
-                                    />
-                                    2
-                                </label>
-                                <label>
-                                    <Field
-                                        type="checkbox"
-                                        name="checkbox"
-                                        value={3}
-                                    />
-                                    3
-                                </label>
-                            </div>
-                        </div>
-                        {/* <CheckboxGroup
-                            name={'checkbox'}
-                            onChangeInput={updateField}
-                        /> */}
-
-                        <div>
-                            <label>Radio</label>
-                            <div>
-                                <label>
-                                    <Field
-                                        type="radio"
-                                        name="radio"
-                                        value={1}
-                                    />
-                                    1
-                                </label>
-                                <label>
-                                    <Field
-                                        type="radio"
-                                        name="radio"
-                                        value={2}
-                                    />
-                                    2
-                                </label>
-                                <label>
-                                    <Field
-                                        type="radio"
-                                        name="radio"
-                                        value={3}
-                                    />
-                                    3
-                                </label>
-                            </div>
-                        </div>
+                        <hr></hr>
                     </Form>
                 )}
             </Formik>
