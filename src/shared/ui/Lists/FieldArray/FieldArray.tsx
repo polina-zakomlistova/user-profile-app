@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorMessage, FieldArray } from 'formik';
+import { ErrorMessage, FieldArray, Field } from 'formik';
 import Input, { ThemeInput } from 'shared/ui/Input/Input';
 import { Button, ThemeButton } from 'shared/ui/Button/Button';
 import PlusIcon from 'shared/assets/icons/Plus.svg';
@@ -11,36 +11,35 @@ interface FieldProps {
     name: string;
     labelInput?: string;
     themeInput?: ThemeInput;
-    onChangeInput: (field: string, value: string[]) => void;
 }
 
 const FieldArrayCustom: React.FC<FieldProps> = ({
     name,
     labelInput,
-    onChangeInput,
     themeInput,
 }) => {
     return (
         <FieldArray name={name}>
-            {({ push, remove, form: { touched, errors, values } }) => (
+            {({ push, remove, form: { values } }) => (
                 <div>
                     {values[name].map((valueInput: string, index: number) => (
                         <div key={index} className={cls.inputWrapper}>
-                            <Input
-                                name={`${name}.${index}`}
-                                label={labelInput}
-                                theme={themeInput}
-                                onBlur={() => {
-                                    onChangeInput(name, values[name]);
-                                }}
+                            <Field
+                                name={`${name}-${index}`}
+                                //name={name}
+                                //id={(index + 1).toString()}
+                                //label={labelInput}
+                                //theme={themeInput}
                             />
                             <Button
                                 type="button"
                                 theme={ThemeButton.DELETE}
-                                onClick={() => {
+                                onClick={(e) => {
                                     remove(index);
+                                    console.log(values);
                                 }}
-                                id={`button-remove-${index}`}
+                                name="remove"
+                                id={(index + 1).toString()}
                             >
                                 {<DeleteIcon />}
                             </Button>
@@ -48,7 +47,7 @@ const FieldArrayCustom: React.FC<FieldProps> = ({
                     ))}
                     <Button
                         type="button"
-                        id="button-add"
+                        name="add"
                         theme={ThemeButton.ADD}
                         onClick={() => push('')}
                     >

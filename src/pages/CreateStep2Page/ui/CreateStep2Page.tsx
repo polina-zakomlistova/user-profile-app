@@ -1,15 +1,15 @@
-import React from 'react';
 import { Formik, Form, Field, FormikProps } from 'formik';
 
 import { object, array, string, number, InferType } from 'yup';
 import ButtonLink, { ThemeButtonLink } from 'shared/ui/ButtonLink/ButtonLink';
 
-import FieldArrayCustom from 'shared/Lists/FieldArray/FieldArray';
+import FieldArrayCustom from 'shared/ui/Lists/FieldArray/FieldArray';
 
 import { useSelector } from 'react-redux';
 import { getUserValue } from 'entities/User/model/selectors/getUserValue';
 import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import CheckboxGroup from 'entities/User/ui/CheckboxGroup/CheckboxGroup';
+import { UserSchema } from 'entities/User';
 
 const SignupSchema = object().shape({
     advantages: array().of(
@@ -35,36 +35,38 @@ const CreateStep2Page = () => {
     return (
         <div className="container">
             <h2 className="visually-hidden">Step 2</h2>
-
             <Formik
                 initialValues={initialValues}
-                validationSchema={SignupSchema}
                 onSubmit={(values) => {
-                    console.log(values);
+                    for (const [key, value] of Object.entries(values)) {
+                        updateField(key as keyof UserSchema, value);
+                    }
                 }}
             >
-                {(props: FormikProps<any>) => (
+                {({ submitForm }) => (
                     <Form className="form">
-                        <FieldArrayCustom
-                            name="advantages"
-                            onChangeInput={updateField}
-                        />
+                        <FieldArrayCustom name="advantages" />
                         <hr></hr>
+                        <div className="btn-wrapper">
+                            <ButtonLink
+                                onClick={() => submitForm()}
+                                name="back"
+                                to={'/step1'}
+                            >
+                                Назад
+                            </ButtonLink>
+                            <ButtonLink
+                                onClick={() => submitForm()}
+                                to={'/step3'}
+                                name="next"
+                                theme={ThemeButtonLink.COLOR}
+                            >
+                                Далее
+                            </ButtonLink>
+                        </div>
                     </Form>
                 )}
             </Formik>
-            <div className="btn-wrapper">
-                <ButtonLink id="button-back" to={'/step1'}>
-                    Назад
-                </ButtonLink>
-                <ButtonLink
-                    to={'/step3'}
-                    id="button-next"
-                    theme={ThemeButtonLink.COLOR}
-                >
-                    Далее
-                </ButtonLink>
-            </div>
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'formik';
+import { FieldArray } from 'formik';
 import Input, { ThemeInput } from 'shared/ui/Input/Input';
 
 import cls from './CheckboxList.module.scss';
@@ -21,9 +21,9 @@ const CheckboxList: React.FC<CheckboxListProps> = ({
     theme,
 }) => {
     return (
-        <Form>
+        <FieldArray name={name}>
             {({ form: { values } }) => (
-                <>
+                <div>
                     {values[name].map(
                         (valueInput: CheckboxOption, index: number) => (
                             <div key={index} className={cls.inputWrapper}>
@@ -39,9 +39,9 @@ const CheckboxList: React.FC<CheckboxListProps> = ({
                             </div>
                         )
                     )}
-                </>
+                </div>
             )}
-        </Form>
+        </FieldArray>
     );
 };
 

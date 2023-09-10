@@ -37,10 +37,10 @@ const CreateStep3Page = () => {
                     </Form>
                 )}
             </Formik>
-            <ButtonLink id="button-back" to={'/step2'}>
+            <ButtonLink name="back" to={'/step2'}>
                 Назад
             </ButtonLink>
-            <Button id="button-send">Отправить</Button>
+            <Button name="send">Отправить</Button>
         </div>
     );
 };

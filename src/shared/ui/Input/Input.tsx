@@ -2,8 +2,8 @@ import React, { InputHTMLAttributes } from 'react';
 import { Field, useField } from 'formik';
 import InputMask from 'react-input-mask';
 import { classNames } from 'shared/lib/classNames/classNames';
+import { idInput } from 'shared/lib/names/names';
 import cls from './Input.module.scss';
-import { ChangeEvent } from 'react';
 
 export enum ThemeInput {
     COLOR = 'color',
@@ -26,6 +26,7 @@ const Input: React.FC<InputProps> = (props) => {
         maskChar,
         theme,
         children,
+        id,
         ...otherProps
     } = props;
 
@@ -39,14 +40,14 @@ const Input: React.FC<InputProps> = (props) => {
                 </label>
             )}
 
-            {type === 'phone' && mask ? (
+            {mask ? (
                 <Field name={name}>
                     {({
                         field,
                     }: {
                         field: {
-                            value: string;
-                            onChange: (e: React.ChangeEvent<any>) => void;
+                            //value: string;
+                            //onChange: (e: React.ChangeEvent<any>) => void;
                         };
                     }) => (
                         <InputMask
@@ -58,8 +59,8 @@ const Input: React.FC<InputProps> = (props) => {
                             )}
                             mask={mask}
                             maskChar={maskChar}
-                            autoComplete="off"
-                            id={`field-${name}`}
+                            autoComplete="on"
+                            id={idInput(name, id)}
                             {...otherProps}
                         >
                             {children}
@@ -69,7 +70,7 @@ const Input: React.FC<InputProps> = (props) => {
             ) : (
                 <Field
                     {...field}
-                    id={`field-${name}`}
+                    id={idInput(name, id)}
                     className={classNames(
                         cls.input,
                         { [cls[theme]]: true },

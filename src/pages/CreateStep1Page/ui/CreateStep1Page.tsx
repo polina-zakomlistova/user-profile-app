@@ -1,11 +1,9 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import ButtonLink, { ThemeButtonLink } from 'shared/ui/ButtonLink/ButtonLink';
-import { object, string, InferType, mixed } from 'yup';
+import { object, string } from 'yup';
 import SelectField from 'shared/ui/Select/Select';
 import Input from 'shared/ui/Input/Input';
-import { Sex } from 'entities/User/model/types/userShema';
-import { UserSchema } from 'entities/User';
+import { Sex, UserSchema } from 'entities/User/model/types/userShema';
 
 import { useSelector } from 'react-redux';
 
@@ -54,46 +52,27 @@ const CreateStep1Page = () => {
                 initialValues={initialValues}
                 validationSchema={SignupSchema}
                 onSubmit={(values) => {
-                    console.log(values);
+                    for (const [key, value] of Object.entries(values)) {
+                        updateField(key as keyof UserSchema, value);
+                    }
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, submitForm }) => (
                     <Form className="form">
                         <div className="input-wrapper">
-                            <Input
-                                name="nickname"
-                                label="Nickname"
-                                onChange={(e) =>
-                                    updateField('nickname', e.target.value)
-                                }
-                                value={nickname}
-                            />
+                            <Input name="nickname" label="Nickname" />
                             {errors.nickname && touched.nickname ? (
                                 <div>{errors.nickname}</div>
                             ) : null}
                         </div>
                         <div className="input-wrapper">
-                            <Input
-                                name="name"
-                                label="Name"
-                                onChange={(e) =>
-                                    updateField('name', e.target.value)
-                                }
-                                value={name}
-                            />
+                            <Input name="name" label="Name" />
                             {errors.name && touched.name ? (
                                 <div>{errors.name}</div>
                             ) : null}
                         </div>
                         <div className="input-wrapper">
-                            <Input
-                                name="sername"
-                                label="SerName"
-                                onChange={(e) =>
-                                    updateField('sername', e.target.value)
-                                }
-                                value={sername}
-                            />
+                            <Input name="sername" label="SerName" />
                             {errors.sername && touched.sername ? (
                                 <div>{errors.sername}</div>
                             ) : null}
@@ -103,21 +82,26 @@ const CreateStep1Page = () => {
                             label="Sex"
                             options={sexOptions}
                         />
+                        <div className="btn-wrapper">
+                            <ButtonLink
+                                to={'/'}
+                                name="back"
+                                theme={ThemeButtonLink.COLOR}
+                                onClick={() => submitForm()}
+                            >
+                                Назад
+                            </ButtonLink>
+                            <ButtonLink
+                                to={'/step2'}
+                                name="next"
+                                onClick={() => submitForm()}
+                            >
+                                Далее
+                            </ButtonLink>
+                        </div>
                     </Form>
                 )}
             </Formik>
-            <div className="btn-wrapper">
-                <ButtonLink
-                    to={'/'}
-                    id="button-back"
-                    theme={ThemeButtonLink.COLOR}
-                >
-                    Назад
-                </ButtonLink>
-                <ButtonLink to={'/step2'} id="button-next">
-                    Далее
-                </ButtonLink>
-            </div>
         </div>
     );
 };

@@ -1,6 +1,5 @@
-import React from 'react';
-import { Formik, Form } from 'formik';
-import { object, string } from 'yup';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 import Input, { ThemeInput } from 'shared/ui/Input/Input';
 import ButtonLink, { ThemeButtonLink } from 'shared/ui/ButtonLink/ButtonLink';
@@ -9,28 +8,27 @@ import { useSelector } from 'react-redux';
 
 import { getUserValue } from 'entities/User/model/selectors/getUserValue';
 import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
+import { UserSchema } from 'entities/User';
 
-const SignupSchema = object().shape({
-    phone: string()
-        .matches(
-            /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/,
-            'Неверный формат номера телефона'
-        )
-        .required('Обязательное поле'),
+const SignupSchema = Yup.object().shape({
+    phone: Yup.string()
+        //.matches(
+        //     /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/,
+        //     'Неверный формат номера телефона'
+        // )
+        .required('Обязательное поле!'),
 
-    email: string()
+    email: Yup.string()
         .email('Неверный формат email')
-        .required('Обязательное поле'),
+        .required('Обязательное поле!'),
 });
 
 const MainPage = () => {
     const user = useSelector(getUserValue);
     const { phone, email } = user;
+
     const updateField = useFieldUpdate();
-    const initialValues = {
-        email,
-        phone,
-    };
+    const initialValues = { email, phone };
 
     return (
         <div className="container">
@@ -40,10 +38,12 @@ const MainPage = () => {
                 initialValues={initialValues}
                 validationSchema={SignupSchema}
                 onSubmit={(values) => {
-                    console.log(values);
+                    for (const [key, value] of Object.entries(values)) {
+                        updateField(key as keyof UserSchema, value);
+                    }
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, submitForm }) => (
                     <Form className="form">
                         <div className="input-wrapper">
                             <Input
@@ -54,10 +54,6 @@ const MainPage = () => {
                                 placeholder="+7 999 999-99-99"
                                 label="Номер телефона"
                                 theme={ThemeInput.COLOR}
-                                onChange={(e) =>
-                                    updateField('phone', e.target.value)
-                                }
-                                value={phone}
                             />
                         </div>
                         {errors.phone && touched.phone ? (
@@ -70,26 +66,22 @@ const MainPage = () => {
                                 placeholder="tim.jennings@example.com"
                                 label="Email"
                                 theme={ThemeInput.COLOR}
-                                onChange={(e) =>
-                                    updateField('email', e.target.value)
-                                }
-                                value={email}
                             />
                             {errors.email && touched.email ? (
                                 <div>{errors.email}</div>
                             ) : null}
                         </div>
+                        <ButtonLink
+                            name="start"
+                            to={'/step1'}
+                            onClick={() => submitForm()}
+                            theme={ThemeButtonLink.COLOR}
+                        >
+                            Начать
+                        </ButtonLink>
                     </Form>
                 )}
             </Formik>
-
-            <ButtonLink
-                id="button-start"
-                to={'/step1'}
-                theme={ThemeButtonLink.COLOR}
-            >
-                Начать
-            </ButtonLink>
         </div>
     );
 };
