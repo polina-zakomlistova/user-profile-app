@@ -1,0 +1,12 @@
+.input-wrapper {
+    margin-bottom: 24px;
+
+    :last-child {
+        margin-bottom: 0px;
+    }
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+}

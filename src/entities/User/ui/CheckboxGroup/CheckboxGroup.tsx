@@ -1,50 +1,59 @@
-import React from 'react';
-import { FieldArray } from 'formik';
-import Input, { ThemeInput } from 'shared/ui/Input/Input';
+import { Formik, Form } from 'formik';
 
-interface FieldProps {
-    name: string;
-    labelInput?: string;
-    themeInput?: ThemeInput;
-    onChangeInput: (field: string, value: string[]) => void;
-}
+import { object, array, number } from 'yup';
 
-const CheckboxGroup: React.FC<FieldProps> = ({
-    name,
-    labelInput,
-    onChangeInput,
-    themeInput,
-    children,
-}) => {
+import { useSelector } from 'react-redux';
+import { getUserValue } from 'entities/User/model/selectors/getUserValue';
+import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
+
+import { UserSchema } from 'entities/User';
+
+import { classNames } from 'shared/lib/classNames/classNames';
+import CheckboxList from 'shared/ui/Lists/CheckboxList/CheckboxList';
+
+const SignupSchema = object().shape({
+    checkbox: array().of(number().required('Обязательное поле')),
+});
+
+const CheckboxGroup = () => {
+    const user = useSelector(getUserValue);
+    const { checkbox } = user;
+    const updateField = useFieldUpdate();
+
+    const initialValues = {
+        checkbox,
+    };
+
     return (
-        <FieldArray name={name}>
-            {({ form }) => (
-                <div>
-                    {form.values[name].map(
-                        (valueInput: string, index: number) => (
-                            <div key={index}>
-                                <Input
-                                    name={`${name}-${index}`}
-                                    label={labelInput}
-                                    type="checkbox"
-                                    theme={themeInput}
-                                    value={valueInput}
-                                    onChange={(e) => {
-                                        const updatedArray = [
-                                            ...form.values[name],
-                                        ];
-                                        updatedArray[index] =
-                                            updatedArray[index] +
-                                            e.target.value;
-                                        onChangeInput(name, updatedArray);
-                                    }}
-                                />
+        <div className="container">
+            <h2 className="visually-hidden">Step 2</h2>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={SignupSchema}
+                onSubmit={(values) => {
+                    for (const [key, value] of Object.entries(values)) {
+                        updateField(key as keyof UserSchema, value);
+                    }
+                }}
+            >
+                {({ errors, touched, values }) => (
+                    <Form className="form">
+                        <CheckboxList
+                            name="checkbox"
+                            onChangeHandler={() => {
+                                updateField('checkbox', values.checkbox);
+                                console.log(values);
+                            }}
+                        />
+                        {errors.checkbox && touched.checkbox ? (
+                            <div className={classNames('error-text', {}, [])}>
+                                {errors.checkbox}
                             </div>
-                        )
-                    )}
-                </div>
-            )}
-        </FieldArray>
+                        ) : null}
+                    </Form>
+                )}
+            </Formik>
+        </div>
     );
 };
 

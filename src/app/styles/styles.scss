@@ -4,5 +4,12 @@
 @import 'variables/global.scss';
 @import 'mixins.scss';
 
+@import 'ui/form.scss';
+@import 'ui/wrapper.scss';
+@import 'ui/input.scss';
+@import 'ui/button.scss';
+@import 'ui/checkbox.scss';
+@import 'ui/errors.scss';
+
 @import 'themes/light.scss';
 @import 'themes/dark.scss';

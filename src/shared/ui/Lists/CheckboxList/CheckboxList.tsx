@@ -1,47 +1,39 @@
 import React from 'react';
-import { FieldArray } from 'formik';
-import Input, { ThemeInput } from 'shared/ui/Input/Input';
+import { Field, FormikConsumer, FormikValues } from 'formik';
 
 import cls from './CheckboxList.module.scss';
+import { CheckboxType } from 'entities/User/model/types/userShema';
+import Input, { ThemeInput } from 'shared/ui/Input/Input';
 
 interface CheckboxListProps {
-    name: string;
-    theme?: ThemeInput;
-    onChangeCheckbox: (field: string, value: boolean[]) => void;
+    name?: string;
+    onChangeHandler?: () => void;
 }
-
-type CheckboxOption = {
-    value: boolean;
-    label: string;
-};
 
 const CheckboxList: React.FC<CheckboxListProps> = ({
     name,
-    onChangeCheckbox,
-    theme,
+    onChangeHandler,
 }) => {
     return (
-        <FieldArray name={name}>
-            {({ form: { values } }) => (
+        <FormikConsumer>
+            {({ values, setFieldValue }) => (
                 <div>
-                    {values[name].map(
-                        (valueInput: CheckboxOption, index: number) => (
-                            <div key={index} className={cls.inputWrapper}>
-                                <Input
-                                    name={`${name}.${index}`}
-                                    label={valueInput.label}
-                                    type="checkbox"
-                                    theme={theme}
-                                    onBlur={() => {
-                                        onChangeCheckbox(name, values[name]);
-                                    }}
-                                />
-                            </div>
-                        )
-                    )}
+                    <h3>{name}</h3>
+                    {Object.entries(values[name]).map(([key, value], index) => (
+                        <div key={index} className={cls.inputWrapper}>
+                            <Input
+                                type="checkbox"
+                                theme={ThemeInput.CHECKBOX}
+                                name={key}
+                                //value={value.toString()}
+                                label={key}
+                                onBlur={onChangeHandler}
+                            />
+                        </div>
+                    ))}
                 </div>
             )}
-        </FieldArray>
+        </FormikConsumer>
     );
 };
 

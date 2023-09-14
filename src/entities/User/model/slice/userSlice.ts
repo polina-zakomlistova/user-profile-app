@@ -11,10 +11,10 @@ const initialState: UserSchema = {
     sex: Sex.man,
     advantages: [],
     radio: 0,
-    checkbox: [
-        { label: 'frontend', value: false },
-        { label: 'backend', value: false },
-    ],
+    checkbox: {
+        frontend: false,
+        backend: false,
+    },
     about: '',
 };
 

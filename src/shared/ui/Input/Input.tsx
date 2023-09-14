@@ -7,6 +7,8 @@ import cls from './Input.module.scss';
 
 export enum ThemeInput {
     COLOR = 'color',
+    VALID = 'valid',
+    CHECKBOX = 'checkbox',
 }
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -21,19 +23,19 @@ const Input: React.FC<InputProps> = (props) => {
     const {
         name,
         label,
-        type = 'text',
         mask,
         maskChar,
         theme,
         children,
         id,
+        className,
         ...otherProps
     } = props;
 
     const [field] = useField(props);
 
     return (
-        <div>
+        <div className={cls.inputWrapper}>
             {label && (
                 <label htmlFor={name} className={cls.label}>
                     {label}
@@ -42,20 +44,13 @@ const Input: React.FC<InputProps> = (props) => {
 
             {mask ? (
                 <Field name={name}>
-                    {({
-                        field,
-                    }: {
-                        field: {
-                            //value: string;
-                            //onChange: (e: React.ChangeEvent<any>) => void;
-                        };
-                    }) => (
+                    {({ field }: { field: {} }) => (
                         <InputMask
                             {...field}
                             className={classNames(
                                 cls.input,
                                 { [cls[theme]]: true },
-                                []
+                                [className]
                             )}
                             mask={mask}
                             maskChar={maskChar}
@@ -70,6 +65,7 @@ const Input: React.FC<InputProps> = (props) => {
             ) : (
                 <Field
                     {...field}
+                    name={name}
                     id={idInput(name, id)}
                     className={classNames(
                         cls.input,
