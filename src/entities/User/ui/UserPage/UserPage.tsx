@@ -51,83 +51,74 @@ const UserPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="container">
-            <h2 className="visually-hidden">Step 1</h2>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={SignupSchema}
-                onSubmit={(values) => {
-                    for (const [key, value] of Object.entries(values)) {
-                        updateField(key as keyof UserSchema, value);
-                    }
-                }}
-            >
-                {({ errors, touched, submitForm, isValid, values }) => (
-                    <Form className="form">
-                        <div className={classNames('input-wrapper', {}, [])}>
-                            <Input
-                                name="nickname"
-                                label="Nickname"
-                                onBlur={() =>
-                                    updateField('nickname', values.nickname)
-                                }
-                            />
-                            {errors.nickname && touched.nickname ? (
-                                <div
-                                    className={classNames('error-text', {}, [])}
-                                >
-                                    {errors.nickname}
-                                </div>
-                            ) : null}
-                        </div>
-                        <div className={classNames('input-wrapper', {}, [])}>
-                            <Input
-                                name="name"
-                                label="Name"
-                                onBlur={() => updateField('name', values.name)}
-                            />
-                            {errors.name && touched.name ? (
-                                <div
-                                    className={classNames('error-text', {}, [])}
-                                >
-                                    {errors.name}
-                                </div>
-                            ) : null}
-                        </div>
-                        <div className={classNames('input-wrapper', {}, [])}>
-                            <Input
-                                name="sername"
-                                label="SerName"
-                                onBlur={() =>
-                                    updateField('sername', values.sername)
-                                }
-                            />
-                            {errors.sername && touched.sername ? (
-                                <div
-                                    className={classNames('error-text', {}, [])}
-                                >
-                                    {errors.sername}
-                                </div>
-                            ) : null}
-                        </div>
-                        <div className={classNames('input-wrapper', {}, [])}>
-                            <SelectField
-                                name="sex"
-                                label="Sex"
-                                onBlur={() => updateField('sex', values.sex)}
-                                options={sexOptions}
-                            />
-                        </div>
-
-                        {!isValid ? (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={SignupSchema}
+            onSubmit={(values) => {
+                for (const [key, value] of Object.entries(values)) {
+                    updateField(key as keyof UserSchema, value);
+                }
+            }}
+        >
+            {({ errors, touched, submitForm, isValid, values }) => (
+                <Form className="form">
+                    <div className={classNames('input-wrapper', {}, [])}>
+                        <Input
+                            name="nickname"
+                            label="Nickname"
+                            onBlur={() =>
+                                updateField('nickname', values.nickname)
+                            }
+                        />
+                        {errors.nickname && touched.nickname ? (
                             <div className={classNames('error-text', {}, [])}>
-                                Необходимо заполнить все поля
+                                {errors.nickname}
                             </div>
                         ) : null}
-                    </Form>
-                )}
-            </Formik>
-        </div>
+                    </div>
+                    <div className={classNames('input-wrapper', {}, [])}>
+                        <Input
+                            name="name"
+                            label="Name"
+                            onBlur={() => updateField('name', values.name)}
+                        />
+                        {errors.name && touched.name ? (
+                            <div className={classNames('error-text', {}, [])}>
+                                {errors.name}
+                            </div>
+                        ) : null}
+                    </div>
+                    <div className={classNames('input-wrapper', {}, [])}>
+                        <Input
+                            name="sername"
+                            label="SerName"
+                            onBlur={() =>
+                                updateField('sername', values.sername)
+                            }
+                        />
+                        {errors.sername && touched.sername ? (
+                            <div className={classNames('error-text', {}, [])}>
+                                {errors.sername}
+                            </div>
+                        ) : null}
+                    </div>
+                    <div className={classNames('input-wrapper', {}, [])}>
+                        <SelectField
+                            name="sex"
+                            label="Sex"
+                            onBlur={() => updateField('sex', values.sex)}
+                            options={sexOptions}
+                        />
+                    </div>
+
+                    {!isValid ? (
+                        <div className={classNames('error-text', {}, [])}>
+                            Необходимо заполнить все поля
+                        </div>
+                    ) : null}
+                </Form>
+            )}
+        </Formik>
     );
 };
 

@@ -15,13 +15,13 @@ const SignupSchema = object().shape({
     checkbox: array().of(string().required('Обязательное поле')),
 });
 
-const CheckboxGroup = () => {
+const RadioGroup = () => {
     const user = useSelector(getUserValue);
-    const { checkbox } = user;
+    const { radio } = user;
     const updateField = useFieldUpdate();
 
     const initialValues = {
-        checkbox,
+        radio,
     };
 
     return (
@@ -37,18 +37,18 @@ const CheckboxGroup = () => {
             {({ errors, touched, values, handleChange }) => (
                 <Form className="form">
                     <CheckboxList
-                        name="checkbox"
+                        name="radio"
                         onChangeHandler={(event) => {
                             console.log(values);
 
                             const newValue = event.target.checked;
-                            handleChange(event);
-                            updateField('checkbox', values.checkbox);
+                            //handleChange(event);
+                            updateField('radio', values.radio);
                         }}
                     />
-                    {errors.checkbox && touched.checkbox ? (
+                    {errors.radio && touched.radio ? (
                         <div className={classNames('error-text', {}, [])}>
-                            {errors.checkbox}
+                            {errors.radio}
                         </div>
                     ) : null}
                 </Form>
@@ -57,4 +57,4 @@ const CheckboxGroup = () => {
     );
 };
 
-export default CheckboxGroup;
+export default RadioGroup;

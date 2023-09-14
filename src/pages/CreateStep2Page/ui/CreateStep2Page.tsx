@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import AdvantagesFields from 'entities/User/ui/AdvantagesFields/AdvantagesFields';
 import CheckboxGroup from 'entities/User/ui/CheckboxGroup/CheckboxGroup';
+import RadioGroup from 'entities/User/ui/RadioGroup/RadioGroup';
 
 const CreateStep2Page = () => {
     const navigate = useNavigate();
@@ -13,6 +14,7 @@ const CreateStep2Page = () => {
 
             <AdvantagesFields />
             <CheckboxGroup />
+            <RadioGroup />
             <div className="btn-wrapper">
                 <Button
                     className="btn-margin"

@@ -28,7 +28,7 @@
     padding: 25px;
 
     width: var(--desktop-width-container);
-    height: var(--desktop-height-container);
+    min-height: var(--desktop-height-container);
 
     @include tablet {
         width: var(--tablet-width-container);

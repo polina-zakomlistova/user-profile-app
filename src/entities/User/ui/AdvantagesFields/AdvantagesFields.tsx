@@ -19,14 +19,15 @@ const SignupSchema = object().shape({
                 .min(1, 'Минимумальная длина 1 символ')
                 .max(50, 'Максимальная длина 50 символов')
         )
-        .min(3, 'Минимум три ваших достоинства'),
+        .min(1, 'Минимум одно ваше достоинство')
+        .max(5, 'Максимум семь ваших достоинств'),
     radio: number().required('Обязательное поле'),
     checkbox: array().of(number().required('Обязательное поле')),
 });
 
 const AdvantagesFields = () => {
     const user = useSelector(getUserValue);
-    const { advantages, checkbox } = user;
+    const { advantages } = user;
     const updateField = useFieldUpdate();
 
     const initialValues = {
@@ -34,41 +35,33 @@ const AdvantagesFields = () => {
     };
 
     return (
-        <div className="container">
-            <h2 className="visually-hidden">Step 2</h2>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={SignupSchema}
-                onSubmit={(values) => {
-                    for (const [key, value] of Object.entries(values)) {
-                        updateField(key as keyof UserSchema, value);
-                    }
-                }}
-            >
-                {({ errors, touched, values }) => (
-                    <Form className="form">
-                        <>
-                            <FieldArrayCustom
-                                name="advantages"
-                                onChangeHandle={() => {
-                                    updateField(
-                                        'advantages',
-                                        values.advantages
-                                    );
-                                }}
-                            />
-                            {errors.advantages && touched.advantages ? (
-                                <div
-                                    className={classNames('error-text', {}, [])}
-                                >
-                                    {errors.advantages}
-                                </div>
-                            ) : null}
-                        </>
-                    </Form>
-                )}
-            </Formik>
-        </div>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={SignupSchema}
+            onSubmit={(values) => {
+                for (const [key, value] of Object.entries(values)) {
+                    updateField(key as keyof UserSchema, value);
+                }
+            }}
+        >
+            {({ errors, touched, values }) => (
+                <Form className="form">
+                    <>
+                        <FieldArrayCustom
+                            name="advantages"
+                            onChangeHandle={() => {
+                                updateField('advantages', values.advantages);
+                            }}
+                        />
+                        {errors.advantages && touched.advantages ? (
+                            <div className={classNames('error-text', {}, [])}>
+                                {errors.advantages}
+                            </div>
+                        ) : null}
+                    </>
+                </Form>
+            )}
+        </Formik>
     );
 };
 

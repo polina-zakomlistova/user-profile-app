@@ -1,46 +1,37 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import ButtonLink from 'shared/ui/ButtonLink/ButtonLink';
-
 import { object, string, InferType } from 'yup';
-import { Button } from 'shared/ui/Button/Button';
+import { Button, ThemeButton } from 'shared/ui/Button/Button';
 
-const SignupSchema = object().shape({
-    about: string()
-        .max(200, 'Максимальная длина 200 символов')
-        .required('Обязательное поле'),
-});
-
-type UserInfo = InferType<typeof SignupSchema>;
+import { useNavigate } from 'react-router-dom';
+import AboutPage from 'entities/User/ui/AboutPage/AboutPage';
 
 const CreateStep3Page = () => {
-    const initialValues: UserInfo = {
-        about: '',
-    };
+    const navigate = useNavigate();
 
     return (
-        <div>
-            <h2>Create Step3 Page</h2>
-            <Formik
-                initialValues={initialValues}
-                validationSchema={SignupSchema}
-                onSubmit={(values) => {
-                    console.log(values);
-                }}
-            >
-                {({ errors, touched }) => (
-                    <Form>
-                        <div>
-                            <label htmlFor="about">About</label>
-                            <Field as="textarea" id="about" name="about" />
-                        </div>
-                    </Form>
-                )}
-            </Formik>
-            <ButtonLink name="back" to={'/step2'}>
-                Назад
-            </ButtonLink>
-            <Button name="send">Отправить</Button>
+        <div className="container">
+            <h2 className="visually-hidden">Create Step3 Page</h2>
+            <AboutPage />
+            <div className="btn-wrapper">
+                <Button
+                    className="btn-margin"
+                    type="submit"
+                    name="back"
+                    onClick={() => {
+                        navigate('/step2');
+                    }}
+                >
+                    Назад
+                </Button>
+                <Button
+                    className="btn-margin"
+                    type="submit"
+                    name="send"
+                    theme={ThemeButton.COLOR}
+                    onClick={() => {}}
+                >
+                    Отправить
+                </Button>
+            </div>
         </div>
     );
 };

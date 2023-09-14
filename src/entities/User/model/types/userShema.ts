@@ -9,9 +9,21 @@ export enum Sex {
     woman = 'woman',
 }
 
-export type CheckboxType = {
-    [key: string]: boolean;
-};
+interface CheckboxOpinionType {
+    name: string;
+    label: string;
+    checked: boolean;
+}
+
+export type CheckboxType = CheckboxOpinionType[];
+
+interface RadioOpinionType {
+    name: string;
+    label: string;
+    picked: boolean;
+}
+
+export type RadioType = RadioOpinionType[];
 
 export interface UserSchema {
     id: string;
@@ -22,7 +34,7 @@ export interface UserSchema {
     email: string;
     sex: Sex;
     advantages: string[];
-    radio: number;
+    radio: RadioType;
     checkbox: CheckboxType;
     about: string;
 }

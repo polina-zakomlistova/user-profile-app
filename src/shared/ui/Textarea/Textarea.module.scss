@@ -1,0 +1,24 @@
+.label {
+    display: flex;
+    flex-direction: column;
+    //align-items: center;
+}
+.wrapper {
+    text-align: start;
+}
+
+.textarea {
+    width: 100%;
+    height: 150px;
+    overflow: auto;
+    resize: none;
+    border: 1px solid hsla(0, 0%, 0%, 0.5);
+
+    &:focus {
+        border: 1px solid var(--btn-color);
+    }
+}
+
+.tip {
+    opacity: 0.5;
+}
