@@ -2,33 +2,35 @@ import { FormikConsumer } from 'formik';
 
 import cls from './RadioList.module.scss';
 import Input, { ThemeInput } from 'shared/ui/Input/Input';
+import { IRadioListType } from 'entities/User/model/types/userShema';
 
 interface RadioListProps {
-    name?: string;
+    name: string;
+    label?: string;
+    list: IRadioListType;
     onChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-interface RadioItem {
-    name: string;
-    label: string;
-    picked: boolean;
-}
-
-const RadioList: React.FC<RadioListProps> = ({ name, onChangeHandler }) => {
+const RadioList: React.FC<RadioListProps> = ({
+    name,
+    label,
+    list,
+    onChangeHandler,
+}) => {
     return (
         <FormikConsumer>
             {({ values }) => (
                 <div>
-                    <h3>{name}</h3>
+                    <h3>{label}</h3>
                     <ul className={cls.list}>
-                        {values[name].map((item: RadioItem) => (
+                        {list.map((item) => (
                             <li className={cls.item} key={item.name}>
                                 <Input
                                     type="radio"
                                     theme={ThemeInput.CHECKBOX}
                                     name={name}
+                                    value={item.name}
                                     label={item.label}
-                                    checked={item.picked}
                                     onBlur={onChangeHandler}
                                 />
                             </li>

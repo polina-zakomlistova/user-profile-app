@@ -9,9 +9,8 @@ import { useSelector } from 'react-redux';
 import { getUserValue } from 'entities/User/model/selectors/getUserValue';
 import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { Button, ThemeButton } from 'shared/ui/Button/Button';
 
-import { useNavigate } from 'react-router-dom';
+import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
 
 const SignupSchema = object().shape({
     nickname: string()
@@ -48,12 +47,12 @@ const UserPage = () => {
         sex,
     };
 
-    const navigate = useNavigate();
-
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={SignupSchema}
+            validateOnChange={true}
+            validateOnBlur={true}
             onSubmit={(values) => {
                 for (const [key, value] of Object.entries(values)) {
                     updateField(key as keyof UserSchema, value);
@@ -65,47 +64,35 @@ const UserPage = () => {
                     <div className={classNames('input-wrapper', {}, [])}>
                         <Input
                             name="nickname"
-                            label="Nickname"
+                            label="Nick name"
                             onBlur={() =>
                                 updateField('nickname', values.nickname)
                             }
                         />
-                        {errors.nickname && touched.nickname ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.nickname}
-                            </div>
-                        ) : null}
+                        <ErrorMessage name="nickname" />
                     </div>
                     <div className={classNames('input-wrapper', {}, [])}>
                         <Input
                             name="name"
-                            label="Name"
+                            label="Имя"
                             onBlur={() => updateField('name', values.name)}
                         />
-                        {errors.name && touched.name ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.name}
-                            </div>
-                        ) : null}
+                        <ErrorMessage name="name" />
                     </div>
                     <div className={classNames('input-wrapper', {}, [])}>
                         <Input
                             name="sername"
-                            label="SerName"
+                            label="Фамилия"
                             onBlur={() =>
                                 updateField('sername', values.sername)
                             }
                         />
-                        {errors.sername && touched.sername ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.sername}
-                            </div>
-                        ) : null}
+                        <ErrorMessage name="sername" />
                     </div>
                     <div className={classNames('input-wrapper', {}, [])}>
                         <SelectField
                             name="sex"
-                            label="Sex"
+                            label="Пол"
                             onBlur={() => updateField('sex', values.sex)}
                             options={sexOptions}
                         />

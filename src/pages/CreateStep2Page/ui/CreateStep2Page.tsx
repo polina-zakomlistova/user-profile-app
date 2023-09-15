@@ -15,6 +15,7 @@ const CreateStep2Page = () => {
             <AdvantagesFields />
             <CheckboxGroup />
             <RadioGroup />
+
             <div className="btn-wrapper">
                 <Button
                     className="btn-margin"

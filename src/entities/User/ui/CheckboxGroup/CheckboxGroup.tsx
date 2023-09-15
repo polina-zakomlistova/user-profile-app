@@ -10,14 +10,17 @@ import { UserSchema } from 'entities/User';
 
 import { classNames } from 'shared/lib/classNames/classNames';
 import CheckboxList from 'shared/ui/Lists/CheckboxList/CheckboxList';
+import { itSkills } from 'entities/User/model/types/userShema';
+import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
 
 const SignupSchema = object().shape({
-    checkbox: array().of(string().required('Обязательное поле')),
+    checkbox: array().of(string()).min(1, 'Выберите хотя бы одно значение'),
 });
 
 const CheckboxGroup = () => {
     const user = useSelector(getUserValue);
     const { checkbox } = user;
+
     const updateField = useFieldUpdate();
 
     const initialValues = {
@@ -27,6 +30,8 @@ const CheckboxGroup = () => {
     return (
         <Formik
             initialValues={initialValues}
+            validateOnChange={true}
+            validateOnBlur={true}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
                 for (const [key, value] of Object.entries(values)) {
@@ -34,23 +39,17 @@ const CheckboxGroup = () => {
                 }
             }}
         >
-            {({ errors, touched, values, handleChange }) => (
+            {({ errors, touched, values }) => (
                 <Form className="form">
                     <CheckboxList
+                        list={itSkills}
+                        label="Навыки"
                         name="checkbox"
-                        onChangeHandler={(event) => {
-                            console.log(values);
-
-                            const newValue = event.target.checked;
-                            handleChange(event);
+                        onChangeHandler={() => {
                             updateField('checkbox', values.checkbox);
                         }}
                     />
-                    {errors.checkbox && touched.checkbox ? (
-                        <div className={classNames('error-text', {}, [])}>
-                            {errors.checkbox}
-                        </div>
-                    ) : null}
+                    <ErrorMessage name="checkbox" />
                 </Form>
             )}
         </Formik>

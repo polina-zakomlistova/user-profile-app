@@ -12,7 +12,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ name }) => (
         render={({ form }: { form: FormikValues }) => {
             const error = getIn(form.errors, name);
             const touch = getIn(form.touched, name);
-            return touch && error ? (
+            return error ? (
                 <div className={cls.errorMessage}>{error}</div>
             ) : null;
         }}

@@ -7,7 +7,7 @@ import { getUserValue } from 'entities/User/model/selectors/getUserValue';
 import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import { UserSchema } from 'entities/User';
 import { classNames } from 'shared/lib/classNames/classNames';
-import { useNavigate } from 'react-router-dom';
+import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
 
 const SignupSchema = Yup.object().shape({
     phone: Yup.string()
@@ -33,6 +33,8 @@ const LoginForm = () => {
         <Formik
             initialValues={initialValues}
             validationSchema={SignupSchema}
+            validateOnChange={true}
+            validateOnBlur={true}
             onSubmit={(values) => {
                 for (const [key, value] of Object.entries(values)) {
                     updateField(key as keyof UserSchema, value);
@@ -57,13 +59,12 @@ const LoginForm = () => {
                             placeholder="+7 (999) 999-99-99"
                             label="Номер телефона"
                             theme={ThemeInput.COLOR}
-                            onBlur={() => updateField('phone', values.phone)}
+                            onBlur={() => {
+                                updateField('phone', values.phone);
+                            }}
                         />
-                        {errors.phone && touched.phone ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.phone}
-                            </div>
-                        ) : null}
+
+                        <ErrorMessage name="phone" />
                     </div>
 
                     <div className={classNames('input-wrapper', {}, [])}>
@@ -75,11 +76,7 @@ const LoginForm = () => {
                             theme={ThemeInput.COLOR}
                             onBlur={() => updateField('email', values.email)}
                         />
-                        {errors.email && touched.email ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.email}
-                            </div>
-                        ) : null}
+                        <ErrorMessage name="email" />
                     </div>
                 </Form>
             )}

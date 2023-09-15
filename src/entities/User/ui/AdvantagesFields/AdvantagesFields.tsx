@@ -11,6 +11,7 @@ import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import { UserSchema } from 'entities/User';
 
 import { classNames } from 'shared/lib/classNames/classNames';
+import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
 
 const SignupSchema = object().shape({
     advantages: array()
@@ -21,8 +22,6 @@ const SignupSchema = object().shape({
         )
         .min(1, 'Минимум одно ваше достоинство')
         .max(5, 'Максимум семь ваших достоинств'),
-    radio: number().required('Обязательное поле'),
-    checkbox: array().of(number().required('Обязательное поле')),
 });
 
 const AdvantagesFields = () => {
@@ -37,6 +36,8 @@ const AdvantagesFields = () => {
     return (
         <Formik
             initialValues={initialValues}
+            validateOnChange={true}
+            validateOnBlur={true}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
                 for (const [key, value] of Object.entries(values)) {
@@ -49,15 +50,13 @@ const AdvantagesFields = () => {
                     <>
                         <FieldArrayCustom
                             name="advantages"
+                            list={values.advantages}
+                            label="Достоинства"
                             onChangeHandle={() => {
                                 updateField('advantages', values.advantages);
                             }}
                         />
-                        {errors.advantages && touched.advantages ? (
-                            <div className={classNames('error-text', {}, [])}>
-                                {errors.advantages}
-                            </div>
-                        ) : null}
+                        <ErrorMessage name="advantages" />
                     </>
                 </Form>
             )}

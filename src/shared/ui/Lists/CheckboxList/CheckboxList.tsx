@@ -1,37 +1,36 @@
-import { FormikConsumer } from 'formik';
+import { FormikConsumer, useFormikContext } from 'formik';
 
 import cls from './CheckboxList.module.scss';
 import Input, { ThemeInput } from 'shared/ui/Input/Input';
+import { ICheckboxListType } from 'entities/User/model/types/userShema';
 
 interface CheckboxListProps {
-    name?: string;
-    onChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface CheckboxItem {
     name: string;
-    label: string;
-    checked: boolean;
+    label?: string;
+    list: ICheckboxListType;
+    onChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CheckboxList: React.FC<CheckboxListProps> = ({
     name,
+    label,
+    list,
     onChangeHandler,
 }) => {
     return (
         <FormikConsumer>
-            {({ values }) => (
+            {() => (
                 <div className={cls.wrapper}>
-                    <h3>{name}</h3>
+                    <h3>{label}</h3>
                     <ul className={cls.list}>
-                        {values[name].map((item: CheckboxItem) => (
+                        {list.map((item) => (
                             <li key={item.name} className={cls.item}>
                                 <Input
                                     type="checkbox"
                                     theme={ThemeInput.CHECKBOX}
-                                    name={`${name}.${item.name}`}
+                                    name={name}
+                                    value={item.name}
                                     label={item.label}
-                                    checked={item.checked}
                                     onBlur={onChangeHandler}
                                 />
                             </li>

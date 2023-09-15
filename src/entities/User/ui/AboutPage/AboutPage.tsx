@@ -36,7 +36,7 @@ const AboutPage = () => {
                 <Form>
                     <Textarea
                         name="about"
-                        label="About"
+                        label="О себе"
                         onChangeHandler={() => {
                             updateField('about', values.about);
                         }}

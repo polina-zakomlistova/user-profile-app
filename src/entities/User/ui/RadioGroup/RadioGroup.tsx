@@ -9,10 +9,12 @@ import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
 import { UserSchema } from 'entities/User';
 
 import { classNames } from 'shared/lib/classNames/classNames';
-import CheckboxList from 'shared/ui/Lists/CheckboxList/CheckboxList';
+import RadioList from 'shared/ui/Lists/RadioList/RadioList';
+import { itRadio } from 'entities/User/model/types/userShema';
+import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
 
 const SignupSchema = object().shape({
-    checkbox: array().of(string().required('Обязательное поле')),
+    radio: string(),
 });
 
 const RadioGroup = () => {
@@ -27,6 +29,8 @@ const RadioGroup = () => {
     return (
         <Formik
             initialValues={initialValues}
+            validateOnChange={true}
+            validateOnBlur={true}
             validationSchema={SignupSchema}
             onSubmit={(values) => {
                 for (const [key, value] of Object.entries(values)) {
@@ -36,21 +40,15 @@ const RadioGroup = () => {
         >
             {({ errors, touched, values, handleChange }) => (
                 <Form className="form">
-                    <CheckboxList
+                    <RadioList
                         name="radio"
-                        onChangeHandler={(event) => {
-                            console.log(values);
-
-                            const newValue = event.target.checked;
-                            //handleChange(event);
+                        label="Выбор"
+                        list={itRadio}
+                        onChangeHandler={() => {
                             updateField('radio', values.radio);
                         }}
                     />
-                    {errors.radio && touched.radio ? (
-                        <div className={classNames('error-text', {}, [])}>
-                            {errors.radio}
-                        </div>
-                    ) : null}
+                    <ErrorMessage name="radio" />
                 </Form>
             )}
         </Formik>

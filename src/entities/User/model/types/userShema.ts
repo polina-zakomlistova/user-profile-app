@@ -9,22 +9,6 @@ export enum Sex {
     woman = 'woman',
 }
 
-interface CheckboxOpinionType {
-    name: string;
-    label: string;
-    checked: boolean;
-}
-
-export type CheckboxType = CheckboxOpinionType[];
-
-interface RadioOpinionType {
-    name: string;
-    label: string;
-    picked: boolean;
-}
-
-export type RadioType = RadioOpinionType[];
-
 export interface UserSchema {
     id: string;
     name: string;
@@ -34,8 +18,8 @@ export interface UserSchema {
     email: string;
     sex: Sex;
     advantages: string[];
-    radio: RadioType;
-    checkbox: CheckboxType;
+    radio: string;
+    checkbox: string[];
     about: string;
 }
 
@@ -44,3 +28,27 @@ export interface UserStateSchema {
     loading: boolean;
     error: null | string;
 }
+
+interface ICheckboxType {
+    name: string;
+    label: string;
+}
+
+interface IRadioType {
+    name: string;
+    label: string;
+}
+
+export type IRadioListType = IRadioType[];
+export type ICheckboxListType = ICheckboxType[];
+
+export const itSkills: ICheckboxListType = [
+    { name: 'frontend', label: 'Frontend' },
+    { name: 'backend', label: 'Backend' },
+];
+
+export const itRadio: IRadioListType = [
+    { name: '1', label: '1' },
+    { name: '2', label: '2' },
+    { name: '3', label: '3' },
+];
