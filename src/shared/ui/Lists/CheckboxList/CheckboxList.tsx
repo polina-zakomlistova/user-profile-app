@@ -1,45 +1,33 @@
-import { FormikConsumer, useFormikContext } from 'formik';
-
+import { FormikConsumer } from 'formik';
+import { Input, InputTheme } from 'shared/ui/Input/Input';
+import { ICheckboxListType } from 'entities/User/model/types/user';
+import { FC } from 'react';
 import cls from './CheckboxList.module.scss';
-import Input, { ThemeInput } from 'shared/ui/Input/Input';
-import { ICheckboxListType } from 'entities/User/model/types/userShema';
 
 interface CheckboxListProps {
     name: string;
     label?: string;
     list: ICheckboxListType;
-    onChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckboxList: React.FC<CheckboxListProps> = ({
-    name,
-    label,
-    list,
-    onChangeHandler,
-}) => {
+export const CheckboxList = (props:CheckboxListProps) => {
+    const { name, label, list } = props;
     return (
-        <FormikConsumer>
-            {() => (
-                <div className={cls.wrapper}>
-                    <h3>{label}</h3>
-                    <ul className={cls.list}>
-                        {list.map((item) => (
-                            <li key={item.name} className={cls.item}>
-                                <Input
-                                    type="checkbox"
-                                    theme={ThemeInput.CHECKBOX}
-                                    name={name}
-                                    value={item.name}
-                                    label={item.label}
-                                    onBlur={onChangeHandler}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </FormikConsumer>
+        <div className={cls.wrapper}>
+            <h3>{label}</h3>
+            <div role="group" aria-labelledby="checkbox-group">
+                {list.map((item) => (
+                    <Input
+                        key={item.name}
+                        className={cls.item}
+                        type="checkbox"
+                        theme={InputTheme.CHECKBOX}
+                        name={name}
+                        value={item.name}
+                        label={item.label}
+                    />
+                ))}
+            </div>
+        </div>
     );
 };
-
-export default CheckboxList;

@@ -1,41 +1,64 @@
-import React, { InputHTMLAttributes } from 'react';
-import { Field, useField } from 'formik';
+import React, { InputHTMLAttributes, memo } from 'react';
 import InputMask from 'react-input-mask';
-import { classNames } from 'shared/lib/classNames/classNames';
-import { idInput } from 'shared/lib/names/names';
+import { useField, ErrorMessage, Field } from 'formik';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import { idInput, idOption } from 'shared/lib/names/names';
 import cls from './Input.module.scss';
 
-export enum ThemeInput {
+export enum InputTheme {
     COLOR = 'color',
     VALID = 'valid',
     CHECKBOX = 'checkbox',
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export enum InputSize {
+    S = 'size-s',
+    M = 'size-m',
+    L = 'size-l',
+    XL = 'size-xl',
+}
+
+type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>
+
+interface InputProps extends HTMLInputProps{
     name: string;
     label?: string;
     mask?: string;
     maskChar?: string;
-    theme?: ThemeInput;
+    theme?: InputTheme;
+    useErrorMessage?: boolean;
+    size?:InputSize,
 }
 
-const Input: React.FC<InputProps> = (props) => {
+export const Input = memo((props: InputProps) => {
     const {
         name,
         label,
         mask,
         maskChar,
-        theme,
-        children,
+        theme = InputTheme.COLOR,
         id,
-        className,
+        className = '',
+        useErrorMessage = true,
+        size = InputSize.M,
         ...otherProps
     } = props;
 
-    const [field] = useField(props);
+    const mods: Mods = {
+        [cls.disabled]: otherProps.disabled,
+    };
 
+    const classes: string[] = [className, cls[theme], cls[size]];
+    const [field] = useField<string>(name);
+
+    const getId = (): string => {
+        if (otherProps.type === 'radio' || otherProps.type === 'checkbox') {
+            return idOption(name, otherProps.value || '', id);
+        }
+        return idInput(name, id);
+    };
     return (
-        <div className={cls.inputWrapper}>
+        <div className={cls.Wrapper}>
             {label && (
                 <label htmlFor={name} className={cls.label}>
                     {label}
@@ -43,42 +66,44 @@ const Input: React.FC<InputProps> = (props) => {
             )}
 
             {mask ? (
-                <Field name={name}>
-                    {({ field }: { field: {} }) => (
-                        <InputMask
-                            {...field}
-                            className={classNames(
-                                cls.input,
-                                { [cls[theme]]: true },
-                                [className]
-                            )}
-                            mask={mask}
-                            maskChar={maskChar}
-                            autoComplete="on"
-                            id={idInput(name, id)}
-                            {...otherProps}
-                        >
-                            {children}
-                        </InputMask>
+                <InputMask
+                    {...field}
+                    className={classNames(
+                        cls.input,
+                        mods,
+                        classes,
                     )}
-                </Field>
+                    name={name}
+                    mask={mask}
+                    maskChar={maskChar}
+                    autoComplete="on"
+                    id={getId()}
+                    {...otherProps}
+                />
+
             ) : (
                 <Field
                     {...field}
                     name={name}
-                    id={idInput(name, id)}
+                    id={getId()}
                     className={classNames(
                         cls.input,
-                        { [cls[theme]]: true },
-                        []
+                        mods,
+                        classes,
                     )}
                     {...otherProps}
-                >
-                    {children}
-                </Field>
+                />
             )}
+
+            {useErrorMessage
+                ? (
+                    <ErrorMessage
+                        render={(msg) => <div className={cls.errorMessage}>{msg}</div>}
+                        name={name}
+                    />
+                )
+                : null}
+
         </div>
     );
-};
-
-export default Input;
+});

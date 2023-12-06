@@ -1,43 +1,41 @@
-import React, { FC } from 'react';
+import React, { FC, InputHTMLAttributes } from 'react';
 import { Field, useFormikContext } from 'formik';
 import { idInput } from 'shared/lib/names/names';
 import { classNames } from 'shared/lib/classNames/classNames';
 import cls from './Textarea.module.scss';
 
-export enum ThemeButtonLink {}
-
-interface TextareaProps {
+interface TextareaProps extends InputHTMLAttributes<HTMLInputElement>{
     name: string;
     label?: string;
     className?: string;
-    theme?: ThemeButtonLink;
-    onChangeHandler?: () => void;
 }
 
 export const Textarea: FC<TextareaProps> = (props) => {
-    const { name, className, theme, label, onChangeHandler } = props;
+    const {
+        name, className, label, ...otherProps
+    } = props;
 
     const { values } = useFormikContext<Record<string, any>>();
 
     return (
         <div className={cls.wrapper}>
-            <label htmlFor={name} className={cls.label}>
+            <label className={cls.label}>
                 {label}
                 <Field
-                    as="textarea"
                     name={name}
+                    as="textarea"
                     id={idInput(name)}
                     className={classNames(
                         cls.textarea,
-                        { [cls[theme]]: true },
-                        [className]
+                        { },
+                        [className],
                     )}
-                    onBlur={onChangeHandler}
-                    value={values[name] || ''}
+                    {...otherProps}
                 />
             </label>
             <div className={cls.tip}>
-                Tip: {values[name] ? values[name].length : 0}
+                Tip:
+                {values[name]?.replace(/ /g, '').length || 0}
             </div>
         </div>
     );

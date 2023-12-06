@@ -1,44 +1,92 @@
-import React, { SelectHTMLAttributes } from 'react';
-import { Field, ErrorMessage, useField } from 'formik';
+import React, { InputHTMLAttributes, SelectHTMLAttributes } from 'react';
+import { ErrorMessage, Field, useField } from 'formik';
+import { InputSize, InputTheme } from 'shared/ui/Input/Input';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import { idInput, idOption } from 'shared/lib/names/names';
 import cls from './Select.module.scss';
 
-interface SelectFieldProps extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectOption {
+    value: string|undefined;
+    label: string;
+    id?: string
+}
+type HTMLSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value'| 'onChange' | 'readOnly'|'size'>
+
+interface SelectFieldProps extends HTMLSelectProps {
+    className?: string;
+    value?: string;
     name: string;
     label: string;
-    options: { value: string; label: string; id?: string }[];
+    onChange?: (value: string) => void;
+    options: SelectOption[];
+    readonly?: boolean;
+    theme?: InputTheme;
+    useErrorMessage?: boolean;
+    size?:InputSize,
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({
-    name,
-    label,
-    options,
-    ...otherProps
-}) => {
-    const [field] = useField(name);
+const Select = (props:SelectFieldProps) => {
+    const {
+        name,
+        label,
+        options,
+        className = '',
+        onChange,
+        id,
+        value,
+        readonly,
+        theme = InputTheme.COLOR,
+        useErrorMessage = true,
+        size = InputSize.M,
+        ...otherProps
+    } = props;
+
+    const [field] = useField<string>(name);
+
+    const mods: Mods = {
+        [cls.disabled]: otherProps.disabled,
+    };
+
+    const classes: string[] = [className, cls[theme], cls[size]];
 
     return (
-        <label htmlFor={name} className={cls.label}>
-            {label}
+        <>
+            <label htmlFor={name} className={cls.label}>
+                {label}
+            </label>
             <Field
-                as="select"
-                name={name}
-                className={cls.select}
                 {...field}
-                id={name}
+                as="select"
+                className={classNames(
+                    cls.select,
+                    mods,
+                    classes,
+                )}
+                id={idOption(name, value || '', id)}
+                disabled={readonly}
                 {...otherProps}
             >
                 {options.map((option) => (
                     <option
                         key={option.value}
                         value={option.value}
-                        id={option.id || option.label}
+                        id={idOption(name, option.label || '', option.id)}
                     >
                         {option.label}
                     </option>
                 ))}
             </Field>
-        </label>
+            {useErrorMessage
+                ? (
+                    <ErrorMessage
+                        render={(msg) => <div className={cls.errorMessage}>{msg}</div>}
+                        name={name}
+                    />
+                )
+                : null}
+        </>
+
     );
 };
 
-export default SelectField;
+export default Select;

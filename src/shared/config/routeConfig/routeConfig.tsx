@@ -1,21 +1,21 @@
 import { RouteProps } from 'react-router-dom';
 import { MainPage } from 'pages/MainPage';
-import { CreateStep1Page } from 'pages/CreateStep1Page';
-import { CreateStep2Page } from 'pages/CreateStep2Page';
-import { CreateStep3Page } from 'pages/CreateStep3Page';
+import { NotFoundPage } from 'pages/NotFoundPage';
+import { CreatePage } from 'pages/CreatePage';
 
 export enum AppRoutes {
     MAIN = 'main',
-    STEP1 = 'Step1',
-    STEP2 = 'Step2',
-    STEP3 = 'Step3',
+    CREATE = 'create',
+
+    // last
+    NOT_FOUND = 'not_found',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: '/',
-    [AppRoutes.STEP1]: '/Step1',
-    [AppRoutes.STEP2]: '/Step2',
-    [AppRoutes.STEP3]: '/Step3',
+    [AppRoutes.CREATE]: '/Create',
+    // last
+    [AppRoutes.NOT_FOUND]: '*',
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -23,16 +23,13 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
         path: RoutePath.main,
         element: <MainPage />,
     },
-    [AppRoutes.STEP1]: {
-        path: RoutePath.Step1,
-        element: <CreateStep1Page />,
+    [AppRoutes.CREATE]: {
+        path: RoutePath.create,
+        element: <CreatePage />,
     },
-    [AppRoutes.STEP2]: {
-        path: RoutePath.Step2,
-        element: <CreateStep2Page />,
-    },
-    [AppRoutes.STEP3]: {
-        path: RoutePath.Step3,
-        element: <CreateStep3Page />,
+    // last
+    [AppRoutes.NOT_FOUND]: {
+        path: RoutePath.not_found,
+        element: <NotFoundPage />,
     },
 };

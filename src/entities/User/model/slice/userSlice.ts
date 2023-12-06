@@ -1,32 +1,48 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Sex, UserSchema } from '../types/userShema';
+import { Sex, User, UserSchema } from '../types/user';
 
-const initialState: UserSchema = {
+const initialData: User = {
     id: '',
     name: '',
     nickname: '',
     sername: '',
     phone: '',
     email: '',
-    sex: Sex.man,
+    sex: undefined,
     advantages: [],
-    radio: '0',
-    checkbox: ['frontend'],
+    level: '',
+    skills: [],
     about: '',
 };
 
-export interface IChangeAction {
-    updates: Partial<UserSchema>;
-}
+const initialState: UserSchema = {
+    readonly: true,
+    isLoading: false,
+    error: undefined,
+    data: initialData,
+    form: initialData,
+    stepForm: 0,
+};
+
+export type IUpdateFieldsAction = User;
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        updateField: (state, action: PayloadAction<IChangeAction>) => {
-            const { updates } = action.payload;
-            Object.assign(state, updates);
+        updateFields: (state, action: PayloadAction<IUpdateFieldsAction>) => {
+            state.form = {
+                ...state.form,
+                ...action.payload,
+            };
         },
+        submitForm: (state) => {
+            state.data = state.form;
+        },
+        setStep: (state, action: PayloadAction<number>) => {
+            state.stepForm = action.payload;
+        },
+
     },
 });
 

@@ -1,18 +1,17 @@
 import { render } from 'react-dom';
-import App from './app/App';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreProvider } from 'app/providers/StoreProvider';
-import { ThemeProvider } from 'app/providers/ThemeProvider';
+import App from './app/App';
+import 'app/styles/index.scss';
 
-//const store = setupStore();
+import './shared/config/i18n/i18n';
+
 render(
-    <StoreProvider>
-        <BrowserRouter>
-            <ThemeProvider>
-                <App />
-            </ThemeProvider>
-        </BrowserRouter>
-    </StoreProvider>,
+    <BrowserRouter>
+        <StoreProvider>
+            <App />
+        </StoreProvider>
+    </BrowserRouter>,
 
-    document.getElementById('root')
+    document.getElementById('root'),
 );

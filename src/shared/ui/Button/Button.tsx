@@ -1,31 +1,43 @@
-import { classNames } from 'shared/lib/classNames/classNames';
-import cls from './Button.module.scss';
-import { ButtonHTMLAttributes, FC } from 'react';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import { ButtonHTMLAttributes, FC, memo } from 'react';
 import { idButton } from 'shared/lib/names/names';
+import cls from './Button.module.scss';
 
-export enum ThemeButton {
+export enum ButtonTheme {
     COLOR = 'color',
+    DISABLED = 'disabled',
     DELETE = 'delete',
     ADD = 'add',
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    theme?: ThemeButton;
+    theme?: ButtonTheme;
     name: string;
 }
 
-export const Button: FC<ButtonProps> = (props) => {
-    const { children, theme, id, name, className, ...otherProps } = props;
+export const Button = memo((props:ButtonProps) => {
+    const {
+        children,
+        theme = ButtonTheme.COLOR,
+        id,
+        name,
+        className,
+        disabled,
+        ...otherProps
+    } = props;
+
+    const mods: Mods = { [cls.disabled]: disabled };
 
     return (
         <button
-            className={classNames(cls.button, { [cls[theme]]: true }, [
-                className,
+            className={classNames(cls.button, mods, [
+                className, cls[theme],
             ])}
             id={idButton(name, id)}
+            disabled={disabled}
             {...otherProps}
         >
             {children}
         </button>
     );
-};
+});
