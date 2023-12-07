@@ -22,8 +22,13 @@ import {
 } from 'entities/User';
 import { MultiStepForm } from 'shared/ui/MultiStepForm/MultiStepForm';
 import { StepForm } from 'shared/ui/StepForm/StepForm';
+import { useNavigate } from 'react-router-dom';
+import { RoutePath } from 'shared/config/routeConfig/routeConfig';
+import { LoginModal } from 'entities/User/ui/LoginModal/LoginModal';
 
 const CreatePage:FC = () => {
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
     const updateFields = useCallback((values: User) => dispatch(userActions.updateFields(values)), [dispatch]);
     const submitUser = useCallback(() => dispatch(userActions.submitForm()), [dispatch]);
@@ -32,6 +37,10 @@ const CreatePage:FC = () => {
     const setStep = useCallback((step: number) => dispatch(userActions.setStep(step)), [dispatch]);
     const { t } = useTranslation();
     const [validationSchema, setValidationSchema] = useState<yup.ObjectSchema<{}>>();
+
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const onCloseModal = useCallback(() => setIsOpenModal(false), []);
+    const onShowModal = useCallback(() => setIsOpenModal(true), []);
 
     useEffect(() => {
         switch (currentStep) {
@@ -49,14 +58,13 @@ const CreatePage:FC = () => {
         }
     }, [currentStep]);
 
-    console.log(currentStep, validationSchema);
     return (
         <div className="container">
             <h2 className="visually-hidden">{t('Создание профиля')}</h2>
             <Formik
                 initialValues={{ ...form }}
-                validationSchema={validationSchema}
-                isInitialValid={false}
+                // validationSchema={validationSchema}
+                // isInitialValid={false}
                 validateOnChange
                 validateOnMount
                 onSubmit={(values) => {
@@ -68,7 +76,7 @@ const CreatePage:FC = () => {
                     errors, handleSubmit, isValid, values,
                 }) => (
                     <MultiStepForm onSetStep={(step) => setStep(step || 0)}>
-                        <StepForm label="1">
+                        <StepForm label="1" onBack={() => { navigate(RoutePath.main); }}>
                             <Step1Form />
                         </StepForm>
                         <StepForm label="2">
@@ -78,14 +86,14 @@ const CreatePage:FC = () => {
                                 skillsList={itSkills}
                             />
                         </StepForm>
-                        <StepForm label="3">
+                        <StepForm label="3" onNext={() => onShowModal()}>
                             <Step3Form />
                         </StepForm>
                     </MultiStepForm>
 
                 )}
             </Formik>
-
+            <LoginModal onClose={onCloseModal} isOpen={isOpenModal} isSucsess />
         </div>
     );
 };

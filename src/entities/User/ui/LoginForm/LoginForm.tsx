@@ -1,87 +1,55 @@
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
+import { useTranslation } from 'react-i18next';
+import { Form } from 'formik';
+import { Input, InputTheme } from 'shared/ui/Input/Input';
+import { UserKeys } from 'entities/User';
+import Select, { SelectOption } from 'shared/ui/Select/Select';
+import { Sex } from 'entities/User/model/types/user';
+import { Button, ButtonTheme } from 'shared/ui/Button/Button';
+import { RoutePath } from 'shared/config/routeConfig/routeConfig';
+import { memo } from 'react';
+import cls from './Step1Form.module.scss';
 
-import Input, { ThemeInput } from 'shared/ui/Input/Input';
-import { useSelector } from 'react-redux';
-import { getUserValue } from 'entities/User/model/selectors/getUserValue';
-import useFieldUpdate from 'entities/User/model/selectors/useFieldUpdate';
-import { UserSchema } from 'entities/User';
-import { classNames } from 'shared/lib/classNames/classNames';
-import { ErrorMessage } from 'shared/ui/ErrorMessage/ErrorMessage';
+interface Step1FormProps {
+    className?: string;
+    onNextStep?:()=>void;
+    isValid?:boolean
+}
 
-const SignupSchema = Yup.object().shape({
-    phone: Yup.string()
-        .matches(
-            /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/,
-            'Неверный формат номера телефона'
-        )
-        .required('Обязательное поле!'),
+const sexOptions: SelectOption[] = Object.values(Sex).map((value) => ({
+    value,
+    label: value,
+    id: `field-sex-option-${value}`,
+}));
 
-    email: Yup.string()
-        .email('Неверный формат email')
-        .required('Обязательное поле!'),
-});
+export const LoginForm = memo((props: Step1FormProps) => {
+    const { className, onNextStep, isValid } = props;
+    const { t } = useTranslation();
 
-const LoginForm = () => {
-    const user = useSelector(getUserValue);
-    const { phone, email } = user;
-
-    const updateField = useFieldUpdate();
-    const initialValues = { email, phone };
+    const mods:Mods = {};
 
     return (
-        <Formik
-            initialValues={initialValues}
-            validationSchema={SignupSchema}
-            validateOnChange={true}
-            validateOnBlur={true}
-            onSubmit={(values) => {
-                for (const [key, value] of Object.entries(values)) {
-                    updateField(key as keyof UserSchema, value);
-                }
-            }}
-        >
-            {({
-                errors,
-                touched,
-                submitForm,
-                isValid,
-                isInitialValid,
-                values,
-            }) => (
-                <Form className="form">
-                    <div className={classNames('input-wrapper', {}, [])}>
-                        <Input
-                            type="phone"
-                            name="phone"
-                            mask="+7 (999) 999-99-99"
-                            maskChar="_"
-                            placeholder="+7 (999) 999-99-99"
-                            label="Номер телефона"
-                            theme={ThemeInput.COLOR}
-                            onBlur={() => {
-                                updateField('phone', values.phone);
-                            }}
-                        />
+        <Form className="form">
+            <div className={classNames('input-wrapper', {}, [])}>
+                <Input
+                    type="phone"
+                    name="phone"
+                    mask="+7 (999) 999-99-99"
+                    maskChar="_"
+                    placeholder="+7 (999) 999-99-99"
+                    label="Номер телефона"
+                    theme={InputTheme.COLOR}
+                />
+                <Input
+                    type="email"
+                    name="email"
+                    placeholder="tim.jennings@example.com"
+                    label="Email"
+                    theme={InputTheme.COLOR}
+                />
+            </div>
 
-                        <ErrorMessage name="phone" />
-                    </div>
+        </Form>
 
-                    <div className={classNames('input-wrapper', {}, [])}>
-                        <Input
-                            type="email"
-                            name="email"
-                            placeholder="tim.jennings@example.com"
-                            label="Email"
-                            theme={ThemeInput.COLOR}
-                            onBlur={() => updateField('email', values.email)}
-                        />
-                        <ErrorMessage name="email" />
-                    </div>
-                </Form>
-            )}
-        </Formik>
     );
-};
-
-export default LoginForm;
+});

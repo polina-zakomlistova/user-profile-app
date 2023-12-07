@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldArray, FormikConsumer } from 'formik';
+import { FieldArray } from 'formik';
 import { Input, InputTheme } from 'shared/ui/Input/Input';
 import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import PlusIcon from 'shared/assets/icons/Plus.svg';
@@ -13,6 +13,7 @@ interface FieldProps {
     label?: string;
     labelInput?: string;
     themeInput?: InputTheme;
+    className?: string;
 }
 
 export const FieldArrayCustom = (props: FieldProps) => {
@@ -22,13 +23,19 @@ export const FieldArrayCustom = (props: FieldProps) => {
         label,
         labelInput,
         themeInput,
+        className,
     } = props;
     return (
         <FieldArray name={name}>
             {({ push, remove, form: { values } }) => (
-                <>
-                    <h3>{label}</h3>
-                    <ul>
+                <div className={classNames(
+                    cls.wrapper,
+                    {},
+                    [className],
+                )}
+                >
+                    <h3 className={cls.title}>{label}</h3>
+                    <ul className={cls.list}>
                         {list
                             && list.map((valueInput, index) => (
                                 <li
@@ -43,6 +50,7 @@ export const FieldArrayCustom = (props: FieldProps) => {
                                     />
 
                                     <Button
+                                        className={cls.buttonDelete}
                                         type="button"
                                         theme={ButtonTheme.DELETE}
                                         onClick={(e) => {
@@ -55,18 +63,24 @@ export const FieldArrayCustom = (props: FieldProps) => {
                                     </Button>
                                 </li>
                             ))}
-                        <Button
-                            type="button"
-                            name="add"
-                            theme={ButtonTheme.ADD}
-                            onClick={() => {
-                                push('');
-                            }}
-                        >
-                            <PlusIcon />
-                        </Button>
                     </ul>
-                </>
+                    <Button
+                        className={classNames(
+                            cls.buttonAdd,
+                            { [cls.mrgAdd]: (!!list?.length) },
+                            [],
+                        )}
+                        type="button"
+                        name="add"
+                        theme={ButtonTheme.ADD}
+                        onClick={() => {
+                            push('');
+                        }}
+                    >
+                        <PlusIcon />
+                    </Button>
+
+                </div>
             )}
         </FieldArray>
     );

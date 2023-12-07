@@ -32,12 +32,16 @@ export const MultiStepForm = (props: MultiStepFormProps) => {
     useEffect(() => { onSetStep?.(step); }, [step, onSetStep]);
 
     const handleNextStep = useCallback(() => {
-        setStep(step + 1);
+        if (step < lastStepNum) {
+            setStep(step + 1);
+        }
         currentStep?.props?.onNext?.();
-    }, [step, currentStep]);
+    }, [step, currentStep, lastStepNum]);
 
     const handlePrevStep = useCallback(() => {
-        setStep(step - 1);
+        if (step > 0) {
+            setStep(step - 1);
+        }
         currentStep?.props?.onBack?.();
     }, [step, currentStep]);
 
@@ -48,7 +52,7 @@ export const MultiStepForm = (props: MultiStepFormProps) => {
             <Form>
                 <HorizontalStepper steps={labelSteps} activeStep={step} />
                 {currentStep}
-                <div className={classNames('btn-wrapper', {}, [])}>
+                <div className={classNames('btn-wrapper', {}, [cls.buttonWrapper])}>
                     <Button
                         className="btn-margin"
                         type="button"
@@ -65,6 +69,7 @@ export const MultiStepForm = (props: MultiStepFormProps) => {
                                 name="submit"
                                 theme={ButtonTheme.COLOR}
                                 disabled={!isValid}
+                                onClick={handleNextStep}
                             >
                                 {t('Отправить')}
                             </Button>

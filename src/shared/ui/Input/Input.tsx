@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, memo } from 'react';
+import React, { InputHTMLAttributes, memo, ReactNode } from 'react';
 import InputMask from 'react-input-mask';
 import { useField, ErrorMessage, Field } from 'formik';
 import { classNames, Mods } from 'shared/lib/classNames/classNames';
@@ -15,7 +15,11 @@ export enum InputSize {
     S = 'size-s',
     M = 'size-m',
     L = 'size-l',
-    XL = 'size-xl',
+}
+export enum LabelPosition {
+    top = 'top-label',
+    left = 'left-label',
+    right = 'right-label',
 }
 
 type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>
@@ -28,6 +32,7 @@ interface InputProps extends HTMLInputProps{
     theme?: InputTheme;
     useErrorMessage?: boolean;
     size?:InputSize,
+    labelPosition?:LabelPosition,
 }
 
 export const Input = memo((props: InputProps) => {
@@ -41,6 +46,7 @@ export const Input = memo((props: InputProps) => {
         className = '',
         useErrorMessage = true,
         size = InputSize.M,
+        labelPosition = LabelPosition.top,
         ...otherProps
     } = props;
 
@@ -48,7 +54,8 @@ export const Input = memo((props: InputProps) => {
         [cls.disabled]: otherProps.disabled,
     };
 
-    const classes: string[] = [className, cls[theme], cls[size]];
+    const classes: string[] = [cls[size], cls[theme], className];
+
     const [field] = useField<string>(name);
 
     const getId = (): string => {
@@ -57,43 +64,52 @@ export const Input = memo((props: InputProps) => {
         }
         return idInput(name, id);
     };
+
+    const InputComponent = mask ? (
+        <InputMask
+            {...field}
+            className={classNames(
+                cls.input,
+                mods,
+                classes,
+            )}
+            name={name}
+            mask={mask}
+            maskChar={maskChar}
+            autoComplete="on"
+            id={getId()}
+            {...otherProps}
+        />
+    ) : (
+        <Field
+            {...field}
+            name={name}
+            id={getId()}
+            className={classNames(
+                cls.input,
+                mods,
+                classes,
+            )}
+            {...otherProps}
+        />
+    );
+
     return (
         <div className={cls.Wrapper}>
-            {label && (
-                <label htmlFor={name} className={cls.label}>
-                    {label}
-                </label>
+            <div className={classNames(
+                cls.wrapperInputLabel,
+                {},
+                [cls[labelPosition]],
             )}
+            >
+                {label && (
+                    <label htmlFor={name} className={cls.label}>
+                        {label}
+                    </label>
+                )}
 
-            {mask ? (
-                <InputMask
-                    {...field}
-                    className={classNames(
-                        cls.input,
-                        mods,
-                        classes,
-                    )}
-                    name={name}
-                    mask={mask}
-                    maskChar={maskChar}
-                    autoComplete="on"
-                    id={getId()}
-                    {...otherProps}
-                />
-
-            ) : (
-                <Field
-                    {...field}
-                    name={name}
-                    id={getId()}
-                    className={classNames(
-                        cls.input,
-                        mods,
-                        classes,
-                    )}
-                    {...otherProps}
-                />
-            )}
+                {InputComponent}
+            </div>
 
             {useErrorMessage
                 ? (

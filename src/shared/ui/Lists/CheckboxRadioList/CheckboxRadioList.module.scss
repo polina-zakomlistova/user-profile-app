@@ -7,16 +7,10 @@
 .title{
   margin-bottom: var(--margin-s);
 }
-
-.inputWrapper {
-  display: flex;
+.item {
   margin-bottom: var(--margin-s);
 }
 
-.inputWrapper:last-child{
-  margin-bottom: 0px;
-}
-
-.mrgAdd{
-  margin-top: var(--margin-s);
+.item:last-child{
+  margin-bottom: 0;
 }

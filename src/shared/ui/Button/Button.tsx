@@ -8,6 +8,7 @@ export enum ButtonTheme {
     DISABLED = 'disabled',
     DELETE = 'delete',
     ADD = 'add',
+    ERROR = 'error',
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -31,28 +31,22 @@ export interface User {
     [UserKeys.about]?: string;
 }
 
-interface ICheckboxType {
+interface ICheckboxRadioType {
     name: string;
     label: string;
 }
 
-interface IRadioType {
-    name: string;
-    label: string;
-}
+export type ICheckboxRadioListType = ICheckboxRadioType[];
 
-export type IRadioListType = IRadioType[];
-export type ICheckboxListType = ICheckboxType[];
-
-export const itSkills: ICheckboxListType = [
+export const itSkills: ICheckboxRadioListType = [
     { name: 'frontend', label: 'Frontend' },
     { name: 'backend', label: 'Backend' },
 ];
 
-export const itRadio: IRadioListType = [
-    { name: 'junior', label: 'junior' },
-    { name: 'middle', label: 'middle' },
-    { name: 'senior', label: 'senior' },
+export const itRadio: ICheckboxRadioListType = [
+    { name: 'junior', label: 'Junior' },
+    { name: 'middle', label: 'Middle' },
+    { name: 'senior', label: 'Senior' },
 ];
 
 export interface UserSchema {

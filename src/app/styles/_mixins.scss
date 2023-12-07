@@ -10,16 +10,36 @@
     }
 }
 
+@mixin desktop {
+    @media (max-width: var(--desktop-width)) {
+        @content;
+    }
+}
+
 @mixin bigDevices {
     @media (min-width: var(--desktop-width)) {
         @content;
     }
 }
 
-@mixin flex-center {
+@mixin flex-center-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flex-center-row {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@mixin flex-left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
 }
 
 @mixin font(
@@ -35,3 +55,5 @@
     font-style: $font-style;
     font-family: $font-family;
 }
+
+

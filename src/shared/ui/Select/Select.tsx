@@ -22,7 +22,6 @@ interface SelectFieldProps extends HTMLSelectProps {
     readonly?: boolean;
     theme?: InputTheme;
     useErrorMessage?: boolean;
-    size?:InputSize,
 }
 
 const Select = (props:SelectFieldProps) => {
@@ -37,7 +36,6 @@ const Select = (props:SelectFieldProps) => {
         readonly,
         theme = InputTheme.COLOR,
         useErrorMessage = true,
-        size = InputSize.M,
         ...otherProps
     } = props;
 
@@ -47,7 +45,7 @@ const Select = (props:SelectFieldProps) => {
         [cls.disabled]: otherProps.disabled,
     };
 
-    const classes: string[] = [className, cls[theme], cls[size]];
+    const classes: string[] = [className, cls[theme]];
 
     return (
         <>

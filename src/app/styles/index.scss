@@ -6,6 +6,20 @@
     text-align: center;
     min-height: 100vh;
     @include font(var(--font-size-m), var(--font-line-m), var(--font-weight-m));
+
+    @include mobile {
+        @include font(var(--font-size-s), var(--font-line-s), var(--font-weight-s));
+    }
+    @include tablet {
+        @include font(var(--font-size-s), var(--font-line-s), var(--font-weight-s));
+    }
+    @include desktop {
+        @include font(var(--font-size-m), var(--font-line-m), var(--font-weight-m));
+    }
+    @include bigDevices {
+        @include font(var(--font-size-l), var(--font-line-l), var(--font-weight-l));
+    }
+
 }
 
 .visually-hidden {
@@ -39,11 +53,19 @@
         width: var(--mobile-width-container);
         height: var(--mobile-height-container);
     }
+
+    @include bigDevices {
+        width: var(--desktop-width-container);
+        eight: var(--desktop-height-container);
+    }
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-bottom: 48px;
+.input-wrapper {
+    @include flex-left-column
 }
+
+.btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+

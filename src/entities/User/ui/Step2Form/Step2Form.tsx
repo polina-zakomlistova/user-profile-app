@@ -3,17 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { FieldArrayCustom } from 'shared/ui/Lists/FieldArrayCustom/FieldArrayCustom';
 import { UserKeys } from 'entities/User';
 import React, { memo } from 'react';
-import { CheckboxList } from 'shared/ui/Lists/CheckboxList/CheckboxList';
-import { RadioList } from 'shared/ui/Lists/RadioList/RadioList';
-import { ICheckboxListType, IRadioListType } from 'entities/User/model/types/user';
+import { CheckboxRadioList } from 'shared/ui/Lists/CheckboxRadioList/CheckboxRadioList';
+import { ICheckboxRadioListType } from 'entities/User/model/types/user';
 import cls from './Step2Form.module.scss';
 
 interface Step2FormProps {
     labelStep?: string;
     className?: string;
     advantagesList: string[]|undefined;
-    levelList: IRadioListType|undefined;
-    skillsList: ICheckboxListType|undefined;
+    levelList: ICheckboxRadioListType|undefined;
+    skillsList: ICheckboxRadioListType|undefined;
     onPrevStep?:()=>void;
     onNextStep?:()=>void;
     isValid?:boolean
@@ -42,22 +41,26 @@ export const Step2Form = memo((props: Step2FormProps) => {
                             name={UserKeys.advantages}
                             label={t('Достоинства')}
                             list={advantagesList}
+                            className={cls.margin}
                         />
                     )}
             { skillsList
                     && (
-                        <CheckboxList
+                        <CheckboxRadioList
                             list={skillsList}
                             label={t('Навыки')}
                             name={UserKeys.checkbox}
+                            type="checkbox"
+                            className={cls.margin}
                         />
                     )}
             {levelList
                     && (
-                        <RadioList
+                        <CheckboxRadioList
                             name={UserKeys.radio}
                             label={t('Уровень')}
                             list={levelList}
+                            type="radio"
                         />
                     )}
         </div>

@@ -14,18 +14,6 @@ interface Step1FormProps {
     isValid?:boolean
 }
 
-const sexOptions: SelectOption[] = Object.values(Sex).map((value) => ({
-    value,
-    label: value,
-    id: `field-sex-option-${value}`,
-}));
-
-sexOptions.push({
-    value: '',
-    label: 'не выбрано',
-    id: 'field-sex-option-default',
-});
-
 export const Step1Form = memo((props: Step1FormProps) => {
     const {
         labelStep,
@@ -36,6 +24,18 @@ export const Step1Form = memo((props: Step1FormProps) => {
         ...otherProps
     } = props;
     const { t } = useTranslation();
+
+    const sexOptions: SelectOption[] = [{
+        value: '',
+        label: t(' Hе выбрано'),
+        id: 'field-sex-option-default',
+    }];
+
+    Object.values(Sex).map((value) => (sexOptions.push({
+        value,
+        label: value,
+        id: `field-sex-option-${value}`,
+    })));
 
     const mods:Mods = {};
 
@@ -54,7 +54,6 @@ export const Step1Form = memo((props: Step1FormProps) => {
                 label={t('Фамилия')}
             />
             <Select
-                size={InputSize.S}
                 name={UserKeys.sex}
                 label={t('Пол')}
                 options={sexOptions}

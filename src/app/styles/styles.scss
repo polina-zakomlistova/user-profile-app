@@ -1,15 +1,8 @@
-@import 'reset.scss';
-@import 'fonts.scss';
-@import 'variables/colors.scss';
-@import 'variables/global.scss';
-@import 'mixins.scss';
-
-@import 'ui/form.scss';
-@import 'ui/wrapper.scss';
-@import 'ui/input.scss';
-@import 'ui/button.scss';
-@import 'ui/checkbox.scss';
-@import 'ui/errors.scss';
-
-@import 'themes/light.scss';
-@import 'themes/dark.scss';
+@import '_reset.scss';
+@import '_fonts.scss';
+@import './variables/_colors';
+@import './variables/_sizes';
+@import './variables/_global';
+@import './themes/_light';
+@import './themes/_dark';
+@import '_mixins';

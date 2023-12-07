@@ -25,7 +25,7 @@ const MainPage:FC = () => {
             <h2 className="visually-hidden">{t('Главная')}</h2>
             <Formik
                 initialValues={{ ...form }}
-                validationSchema={LoginValidationSchema}
+                // validationSchema={LoginValidationSchema}
                 validateOnChange
                 validateOnMount
                 onSubmit={(values) => {

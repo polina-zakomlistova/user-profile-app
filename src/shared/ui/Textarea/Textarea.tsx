@@ -19,20 +19,22 @@ export const Textarea: FC<TextareaProps> = (props) => {
 
     return (
         <div className={cls.wrapper}>
-            <label className={cls.label}>
-                {label}
-                <Field
-                    name={name}
-                    as="textarea"
-                    id={idInput(name)}
-                    className={classNames(
-                        cls.textarea,
-                        { },
-                        [className],
-                    )}
-                    {...otherProps}
-                />
-            </label>
+            {label && (
+                <label htmlFor={name} className={cls.label}>
+                    {label}
+                </label>
+            )}
+            <Field
+                name={name}
+                as="textarea"
+                id={idInput(name)}
+                className={classNames(
+                    cls.textarea,
+                    { },
+                    [className],
+                )}
+                {...otherProps}
+            />
             <div className={cls.tip}>
                 Tip:
                 {values[name]?.replace(/ /g, '').length || 0}
