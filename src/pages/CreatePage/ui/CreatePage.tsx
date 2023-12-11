@@ -59,76 +59,45 @@ const CreatePage:FC = () => {
     }, [currentStep]);
 
     return (
-        <div className="container">
+        <>
             <h2 className="visually-hidden">{t('Создание профиля')}</h2>
-            <Formik
-                initialValues={{ ...form }}
-                // validationSchema={validationSchema}
-                // isInitialValid={false}
-                validateOnChange
-                validateOnMount
-                onSubmit={(values) => {
-                    updateFields(values);
-                    submitUser();
-                }}
-            >
-                {({
-                    errors, handleSubmit, isValid, values,
-                }) => (
-                    <MultiStepForm onSetStep={(step) => setStep(step || 0)}>
-                        <StepForm label="1" onBack={() => { navigate(RoutePath.main); }}>
-                            <Step1Form />
-                        </StepForm>
-                        <StepForm label="2">
-                            <Step2Form
-                                advantagesList={values.advantages || []}
-                                levelList={itRadio}
-                                skillsList={itSkills}
-                            />
-                        </StepForm>
-                        <StepForm label="3" onNext={() => onShowModal()}>
-                            <Step3Form />
-                        </StepForm>
-                    </MultiStepForm>
+            <div className="form">
+                <Formik
+                    initialValues={{ ...form }}
+                    validationSchema={validationSchema}
+                    isInitialValid={false}
+                    validateOnChange
+                    validateOnMount
+                    onSubmit={(values) => {
+                        updateFields(values);
+                        submitUser();
+                    }}
+                >
+                    {({
+                        errors, handleSubmit, isValid, values,
+                    }) => (
+                        <MultiStepForm onSetStep={(step) => setStep(step || 0)}>
+                            <StepForm label="1" onBack={() => { navigate(RoutePath.main); }}>
+                                <Step1Form />
+                            </StepForm>
+                            <StepForm label="2">
+                                <Step2Form
+                                    advantagesList={values.advantages || []}
+                                    levelList={itRadio}
+                                    skillsList={itSkills}
+                                />
+                            </StepForm>
+                            <StepForm label="3" onNext={() => onShowModal()}>
+                                <Step3Form />
+                            </StepForm>
+                        </MultiStepForm>
 
-                )}
-            </Formik>
-            <LoginModal onClose={onCloseModal} isOpen={isOpenModal} isSucsess />
-        </div>
+                    )}
+                </Formik>
+                <LoginModal onClose={onCloseModal} isOpen={isOpenModal} isSucsess />
+            </div>
+        </>
     );
 };
 
 export default CreatePage;
-
-// <>
-//     {step === 0
-//         && (
-//             <Step1Form
-//                 onPrevStep={() => {
-//                     handleOnPrevStep(values);
-//                     navigate(RoutePath.main);
-//                 }}
-//                 onNextStep={() => handleOnNextStep(values)}
-//                 isValid={isValid}
-//             />
-//         )}
-//     {step === 1
-//         && (
-//             <Step2Form
-//                 advantagesList={values.advantages || []}
-//                 levelList={itRadio}
-//                 skillsList={itSkills}
-//                 isValid={isValid}
-//                 onPrevStep={() => handleOnPrevStep(values)}
-//                 onNextStep={() => handleOnNextStep(values)}
-//             />
-//         )}
-//     {step === 2
-//         && (
-//             <Step3Form
-//                 isValid={isValid}
-//                 onPrevStep={() => handleOnPrevStep(values)}
-//             />
-//         )}
-//
-// </>

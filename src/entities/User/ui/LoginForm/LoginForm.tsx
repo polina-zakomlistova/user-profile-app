@@ -2,13 +2,10 @@ import { classNames, Mods } from 'shared/lib/classNames/classNames';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'formik';
 import { Input, InputTheme } from 'shared/ui/Input/Input';
-import { UserKeys } from 'entities/User';
-import Select, { SelectOption } from 'shared/ui/Select/Select';
+import { SelectOption } from 'shared/ui/Select/Select';
 import { Sex } from 'entities/User/model/types/user';
-import { Button, ButtonTheme } from 'shared/ui/Button/Button';
-import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { memo } from 'react';
-import cls from './Step1Form.module.scss';
+import cls from './LoginForm.module.scss';
 
 interface Step1FormProps {
     className?: string;
@@ -29,7 +26,7 @@ export const LoginForm = memo((props: Step1FormProps) => {
     const mods:Mods = {};
 
     return (
-        <Form className="form">
+        <Form>
             <div className={classNames('input-wrapper', {}, [])}>
                 <Input
                     type="phone"
@@ -39,6 +36,7 @@ export const LoginForm = memo((props: Step1FormProps) => {
                     placeholder="+7 (999) 999-99-99"
                     label="Номер телефона"
                     theme={InputTheme.COLOR}
+                    className={cls.margin}
                 />
                 <Input
                     type="email"

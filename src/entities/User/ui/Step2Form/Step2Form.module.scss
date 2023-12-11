@@ -1,3 +1,14 @@
+@import 'app/styles/styles.scss';
+
 .margin{
-  margin-bottom: var(--margin-s);
+  margin-bottom: $margin-m;
+  @include mobileDevice {
+    margin-bottom: $margin-s;
+  }
+  @include tabletDevice {
+    margin-bottom: $margin-s;
+  }
+  @include bigDevice {
+    margin-bottom: $margin-l;
+  }
 }

@@ -11,6 +11,7 @@ import { FC, useCallback } from 'react';
 import { Formik } from 'formik';
 import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { useTranslation } from 'react-i18next';
+import cls from './MainPage.module.scss';
 
 const MainPage:FC = () => {
     const navigate = useNavigate();
@@ -21,44 +22,49 @@ const MainPage:FC = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="container">
+        <>
             <h2 className="visually-hidden">{t('Главная')}</h2>
-            <Formik
-                initialValues={{ ...form }}
-                // validationSchema={LoginValidationSchema}
-                validateOnChange
-                validateOnMount
-                onSubmit={(values) => {
-                    updateFields(values);
-                    submitUser();
-                }}
-            >
-                {({
-                    isValid, handleSubmit, values, errors,
-                }) => (
-                    <>
-                        <LoginForm />
-                        <Button
-                            className="btn-margin"
-                            type="submit"
-                            name="start"
-                            disabled={!isValid}
-                            theme={ButtonTheme.COLOR}
-                            onClick={() => {
-                                if (isValid) {
-                                    handleSubmit();
-                                    navigate(RoutePath.create);
-                                }
-                            }}
-                        >
-                            {t('Начать')}
-                        </Button>
-                    </>
+            <div className="form">
+                <Formik
+                    initialValues={{ ...form }}
+                    validationSchema={LoginValidationSchema}
+                    validateOnChange
+                    validateOnMount
+                    onSubmit={(values) => {
+                        updateFields(values);
+                        submitUser();
+                    }}
+                >
+                    {({
+                        isValid, handleSubmit, values, errors,
+                    }) => (
+                        <>
+                            <LoginForm />
+                            <div className="btn-wrapper">
+                                <Button
+                                    className={cls.btnMargin}
+                                    type="submit"
+                                    name="start"
+                                    disabled={!isValid}
+                                    theme={ButtonTheme.COLOR}
+                                    onClick={() => {
+                                        if (isValid) {
+                                            handleSubmit();
+                                            navigate(RoutePath.create);
+                                        }
+                                    }}
+                                >
+                                    {t('Начать')}
+                                </Button>
+                            </div>
 
-                )}
-            </Formik>
+                        </>
 
-        </div>
+                    )}
+                </Formik>
+            </div>
+
+        </>
 
     );
 };

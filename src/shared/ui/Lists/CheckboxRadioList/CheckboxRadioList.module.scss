@@ -1,16 +1,22 @@
-@use 'app/styles/_mixins.scss' as mixins;
+@import 'app/styles/styles.scss';
 
 .wrapper {
-  @include mixins.flex-left-column;
+  @include flex-left-column;
 }
 
 .title{
-  margin-bottom: var(--margin-s);
+  margin-bottom: $margin-s;
 }
 .item {
-  margin-bottom: var(--margin-s);
+  margin-bottom: $margin-s;
 }
-
+.list{
+  list-style: none;
+  padding: 0;
+}
 .item:last-child{
   margin-bottom: 0;
+}
+.errorMessage {
+  color: $error-color;
 }

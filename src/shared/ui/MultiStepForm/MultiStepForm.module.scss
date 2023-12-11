@@ -1,24 +1,24 @@
-@use 'app/styles/_mixins.scss' as mixins;
-
+@import 'app/styles/styles.scss';
 
 .MultyStepForm{
   width: 100%;
+  margin: 0 auto;
 
-  @include mixins.mobile{
+  @include mobileDevice {
     width: 100%;
   }
-  @include mixins.tablet{
+  @include tabletDevice {
     width: 100%;
   }
-  @include mixins.desktop{
+  @include desktopDevice {
     width: 70%;
   }
-  @include mixins.bigDevices{
+  @include bigDevice {
     max-width: 70%;
   }
 
 }
 
 .buttonWrapper{
-  margin-top: var(--margin-m);
+  margin-top: $margin-m;
 }

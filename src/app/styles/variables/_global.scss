@@ -1,28 +1,31 @@
-:root {
-    //шрифт
-    --font-family-main: 'SB Sans Interface', 'Times New Roman', Serif;
-    --font-size-s: 8px;
-    --font-line-s: 14px;
-    --font-weight-s: 400;
-    --font-size-m: 14px;
-    --font-line-m: 20px;
-    --font-weight-m: 400;
-    --font-size-l: 24px;
-    --font-line-l: 32px;
-    --font-weight-l: 400;
-    // размер экрана
-    --desktop-width: 1600px;
-    --tablet-width: 769px;
-    --mobile-width: 376px;
-    //размер контейнера
-    --desktop-width-container: 65vw;
-    --tablet-width-container: 100vw;
-    --mobile-width-container: 100vw;
 
-    --desktop-height-container: 74vh;
-    --tablet-height-container: 100vh;
-    --mobile-height-container: 100vh;
+//шрифт
+$font-family-main: 'SB Sans Interface', 'Times New Roman', Serif;
+$font-size-s: 8px;
+$font-line-s: 14px;
+$font-weight-s: 400;
+$font-size-m: 14px;
+$font-line-m: 20px;
+$font-weight-m: 400;
+$font-size-l: 24px;
+$font-line-l: 32px;
+$font-weight-l: 400;
 
-    // z-индексы
-    --modal-z-index: 10;
-}
+// размер экрана
+$desktop-width: 1600px;
+$tablet-width: 769px;
+$mobile-width: 376px;
+//размер контейнера
+$desktop-width-container: 65vw;
+$tablet-width-container: 100vw;
+$mobile-width-container: 100vw;
+
+$desktop-height-container: 74vh;
+$tablet-height-container: 100vh;
+$mobile-height-container: 100vh;
+
+$modal-z-index: 100vh;
+
+// z-индексы
+$modal-z-index: 10;
+

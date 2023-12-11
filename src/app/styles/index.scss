@@ -1,25 +1,30 @@
 @import 'styles.scss';
 
+:root, input, button, option, select, textarea{
+    @include font($font-size-m, $font-line-m, $font-weight-m);
+
+    @include mobileDevice {
+        @include font($font-size-s, $font-line-s, $font-weight-s);
+    }
+    @include tabletDevice {
+        @include font($font-size-s, $font-line-s, $font-weight-s);
+    }
+    @include desktopDevice {
+        @include font($font-size-m, $font-line-m, $font-weight-m);
+    }
+    @include bigDevice {
+        @include font($font-size-l, $font-line-l, $font-weight-l);
+    }
+}
+
 .app {
-    background: var(--bg-color);
-    color: var(--primary-color);
+    background: $bg-color;
+    color: $primary-color;
     text-align: center;
     min-height: 100vh;
-    @include font(var(--font-size-m), var(--font-line-m), var(--font-weight-m));
-
-    @include mobile {
-        @include font(var(--font-size-s), var(--font-line-s), var(--font-weight-s));
-    }
-    @include tablet {
-        @include font(var(--font-size-s), var(--font-line-s), var(--font-weight-s));
-    }
-    @include desktop {
-        @include font(var(--font-size-m), var(--font-line-m), var(--font-weight-m));
-    }
-    @include bigDevices {
-        @include font(var(--font-size-l), var(--font-line-l), var(--font-weight-l));
-    }
-
+    height: auto;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .visually-hidden {
@@ -33,31 +38,38 @@
     overflow: hidden;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    border-radius: 12px 12px 0px 0px;
-    background: var(--form-bg-color);
-    padding: 25px;
+.form{
+    background: $form-bg-color;
+    border-radius: 24px;
+    padding: 60px 110px;
+    margin: $margin-l auto 0;
+    width: $desktop-width-container;
+    min-height: $desktop-height-container;
+    box-sizing: border-box;
+    height: auto;
 
-    width: var(--desktop-width-container);
-    min-height: var(--desktop-height-container);
-
-    @include tablet {
-        width: var(--tablet-width-container);
-        height: var(--tablet-height-container);
+    @include mobileDevice {
+        margin: 0 auto;
+        border: none;
+        border-radius: 0;
+        padding: 10px;
+        width: $mobile-width-container;
+        min-height: $mobile-height-container;
     }
 
-    @include mobile {
-        width: var(--mobile-width-container);
-        height: var(--mobile-height-container);
+    @include tabletDevice {
+        border-radius: 0;
+        width: $tablet-width-container;
+        min-height: $tablet-height-container;
+        padding: 10px;
     }
 
-    @include bigDevices {
-        width: var(--desktop-width-container);
-        eight: var(--desktop-height-container);
+
+    @include bigDevice {
+        width: $desktop-width-container;
+        min-height: $desktop-height-container;
     }
+
 }
 
 .input-wrapper {
@@ -67,5 +79,5 @@
 .btn-wrapper {
     display: flex;
     justify-content: space-between;
+    margin: 0 auto;
 }
-

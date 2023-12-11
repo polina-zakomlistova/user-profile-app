@@ -50,13 +50,15 @@ export const Input = memo((props: InputProps) => {
         ...otherProps
     } = props;
 
+    const classes: string[] = [cls[size], cls[theme]];
+
+    const [field, form] = useField<string>(name);
+    const isValidValue = !form.error;
+
     const mods: Mods = {
         [cls.disabled]: otherProps.disabled,
+        [cls.valid]: isValidValue,
     };
-
-    const classes: string[] = [cls[size], cls[theme], className];
-
-    const [field] = useField<string>(name);
 
     const getId = (): string => {
         if (otherProps.type === 'radio' || otherProps.type === 'checkbox') {
@@ -95,7 +97,12 @@ export const Input = memo((props: InputProps) => {
     );
 
     return (
-        <div className={cls.Wrapper}>
+        <div className={classNames(
+            cls.Wrapper,
+            {},
+            [className],
+        )}
+        >
             <div className={classNames(
                 cls.wrapperInputLabel,
                 {},

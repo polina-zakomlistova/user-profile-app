@@ -1,21 +1,31 @@
-@use 'app/styles/_mixins.scss' as mixins;
+@import 'app/styles/styles.scss';
 
 .Wrapper{
-    @include mixins.flex-left-column;
+    @include flex-left-column;
 }
 
 .input {
     box-sizing: border-box;
-    width: 100%;
-    height: var(--input-height-m);
+    max-width: 100%;
+    height: $input-height-m;
     padding: 12px;
-    border: 1px solid var(--bg-color);
+    border: 1px solid $bg-color;
     border-radius: 4px;
+
+    @include mobileDevice {
+        height: $input-height-s;
+    }
+    @include tabletDevice {
+        height: $input-height-s;
+    }
+    @include bigDevice {
+        height: $input-height-l;
+    }
 }
 
 .label {
-    margin-bottom: var(--margin-s);
-    color: var(--primary-color);
+    margin-bottom: $margin-s;
+    color: $primary-color;
 }
 
 .inputWrapper {
@@ -24,22 +34,19 @@
 }
 
 .errorMessage {
-    color: var(--error-color);
+    color: $error-color;
 }
 
 .size-s {
-    width: var(--input-width-s);
-    font: var(--font-m);
+    max-width: $input-width-s;
 }
 
 .size-m {
-    width: var(--input-width-m);
-    font: var(--font-m);
+    max-width: $input-width-m;
 }
 
 .size-l {
-    width: var(--input-width-l);
-    font: var(--font-l);
+    max-width: $input-width-l;
 }
 
 
@@ -57,7 +64,7 @@
     flex-direction: row;
     .label{
         margin: 0;
-        margin-right: var(--margin-s);
+        margin-right: $margin-s;
     }
 }
 
@@ -66,21 +73,34 @@
 
     .label{
         margin: 0;
-        margin-left: var(--margin-s);
+        margin-left: $margin-s;
     }
 }
 
 .checkbox {
-    width: var(--chechbox-size-m);
-    height: var(--chechbox-size-m);
+    width: $checkbox-size-m;
+    height: $checkbox-size-m;
     padding: 0;
     margin: 0;
-}
+    @include mobileDevice {
+        width: $checkbox-size-s;
+        height: $checkbox-size-s;
+    }
+    @include tabletDevice {
+        width: $checkbox-size-s;
+        height: $checkbox-size-s;
+    }
 
-.valid {
-    background-color: var(--success-color);
+    @include bigDevice {
+        width: $checkbox-size-l;
+        height: $checkbox-size-l;
+    }
 }
 
 .color {
-    background-color: var(--bg-color);
+    background-color: $bg-color;
+}
+
+.valid {
+    background-color: $success-color;
 }

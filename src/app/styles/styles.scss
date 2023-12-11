@@ -1,8 +1,10 @@
-@import '_reset.scss';
-@import '_fonts.scss';
+@import './variables/_global';
 @import './variables/_colors';
 @import './variables/_sizes';
-@import './variables/_global';
+@import './_reset.scss';
+@import './_fonts.scss';
 @import './themes/_light';
 @import './themes/_dark';
-@import '_mixins';
+@import './_mixins';
+
+

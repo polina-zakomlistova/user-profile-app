@@ -1,16 +1,23 @@
-@use 'app/styles/_mixins.scss' as mixins;
+@import 'app/styles/styles.scss';
 
 .wrapper {
-  @include mixins.flex-left-column;
+  @include flex-left-column;
+}
+
+.list{
+  @include flex-left-column;
+  list-style: none;
+  margin-bottom: $margin-s;
+  padding: 0;
 }
 
 .title{
-  margin-bottom: var(--margin-s);
+  margin-bottom: $margin-s;
 }
 
 .inputWrapper {
   display: flex;
-  margin-bottom: var(--margin-s);
+  margin-bottom: $margin-s;
 }
 
 .inputWrapper:last-child{
@@ -18,5 +25,45 @@
 }
 
 .mrgAdd{
-  margin-top: var(--margin-s);
+  //margin-top: $margin-s;
+}
+.plus{
+  fill: $btn-color;
+  width: $input-height-s;
+  height: $input-height-s;
+
+  @include mobileDevice {
+    width: $input-height-xs;
+    height: $input-height-xs;
+  }
+  @include tabletDevice {
+    width: $input-height-xs;
+    height: $input-height-xs;
+  }
+  @include bigDevice {
+    width: $input-height-m;
+    height: $input-height-m;
+  }
+
+}
+.delete{
+  width: $input-height-s;
+  height: $input-height-s;
+  fill: $bg-color;
+
+  @include mobileDevice {
+    width: $input-height-xs;
+    height: $input-height-xs;
+  }
+  @include tabletDevice {
+    width: $input-height-xs;
+    height: $input-height-xs;
+  }
+  @include bigDevice {
+    width: $input-height-m;
+    height: $input-height-m;
+  }
+}
+.errorMessage {
+  color: $error-color;
 }

@@ -1,25 +1,33 @@
-@mixin tablet {
-    @media (max-width: var(--tablet-width)) {
+@import './variables/global';
+@import './variables/colors';
+
+@mixin mobileDevice {
+    @media (max-width: $mobile-width) {
         @content;
     }
 }
 
-@mixin mobile {
-    @media (max-width: var(--mobile-width)) {
+@mixin tabletDevice {
+    @media (min-width: $mobile-width+1) and (max-width:$tablet-width) {
         @content;
     }
 }
 
-@mixin desktop {
-    @media (max-width: var(--desktop-width)) {
+@mixin desktopDevice {
+    @media (min-width:$tablet-width + 1) and (max-width: $desktop-width) {
         @content;
     }
 }
 
-@mixin bigDevices {
-    @media (min-width: var(--desktop-width)) {
+@mixin bigDevice {
+    @media (min-width: $desktop-width+1) {
         @content;
     }
+}
+
+@mixin colorRed{
+    color: #0051ff;
+    background: $error-color;
 }
 
 @mixin flex-center-column {
@@ -47,7 +55,7 @@
     $line-height,
     $font-weight: 400,
     $font-style: normal,
-    $font-family: var(--font-family-main)
+    $font-family: $font-family-main,
 ) {
     font-size: $font-size;
     line-height: $line-height;
